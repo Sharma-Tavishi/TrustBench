@@ -1,0 +1,24 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+*.egg-info/
+.env
+.venv/
+venv/
+
+# Results & caches
+results/
+data/cache/
+*.jsonl
+*.pt
+*.safetensors
+
+# IDE files
+.DS_Store
+.vscode/
+.idea/
+
+# Ollama / model cache
+~/.ollama/
