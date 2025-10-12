@@ -43,7 +43,7 @@ def evaluate_time_aware(items: List[Dict[str, Any]], time_refs: Dict[str, List[D
                     best = max(best, 1.0)
                     tag = "current"
                 else:
-                    # outdated → apply recency decay
+                    # outdated -> apply recency decay
                     anchor = vt if vt else vf
                     ddays = abs((d0 - anchor).days)
                     best = max(best, recency_decay(ddays, half_life_days))
