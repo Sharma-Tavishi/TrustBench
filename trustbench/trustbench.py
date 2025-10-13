@@ -10,12 +10,17 @@ from metrics.robustness import evaluate_robustness
 from metrics.fairness import compute_slice_metrics, evaluate_counterfactual
 from metrics.timeliness import evaluate_time_aware
 from metrics.safety import score_safety
+from datasets import load_dataset
 
 # ---------- Config ----------
-MODEL_OLLAMA = "llama3.2:1b"
-DATA_DIR = "data"
-RESULTS_DIR = "results"
-os.makedirs(DATA_DIR, exist_ok=True)
+MODEL_OLLAMA = "llama2:7b"
+DATASET= 'Cameron-Chen/mixed_qa'
+DATA_BASE = "data"
+DATA_DIR = os.path.join(DATA_BASE, "Cameron-Chen/mixed_qa")
+RESULTS_BASE = "results"
+RESULTS_DIR = os.path.join(RESULTS_BASE,MODEL_OLLAMA.split(":")[0])
+os.makedirs(DATA_BASE, exist_ok=True)
+os.makedirs(RESULTS_BASE, exist_ok=True)
 os.makedirs(RESULTS_DIR, exist_ok=True)
 
 DEFAULT_SUBSET = 150
@@ -95,10 +100,12 @@ def ensure_model_mlx() -> bool:
         return False
 
 # ---------- Step 2: Download dataset (TruthfulQA) ----------
-def prepare_truthfulqa_subset(n: int = DEFAULT_SUBSET, split: str = "validation", seed: int = SEED) -> Tuple[str, str]:
-    from datasets import load_dataset
+def prepare_truthful_qa(n: int = DEFAULT_SUBSET, 
+                        split: str = "validation", 
+                        seed: int = SEED) -> Tuple[str, str]):
     random.seed(seed)
-    ds = load_dataset("truthful_qa", "generation")[split]
+    dataset= "truthful_qa"
+    ds = load_dataset(dataset)[split]
     # Each row has 'question' and 'best_answer' (plus more fields); use best_answer as reference.
     indices = list(range(len(ds)))
     random.shuffle(indices)
@@ -128,10 +135,30 @@ def prepare_truthfulqa_subset(n: int = DEFAULT_SUBSET, split: str = "validation"
         })
         # Store both a list for robust scoring and a single field for back-compat
         refs.append({"id": rid, "references": ref_list, "reference": best})
-    prompts_path = os.path.join(DATA_DIR, "truthfulqa_subset.jsonl")
-    refs_path = os.path.join(DATA_DIR, "truthfulqa_refs.jsonl")
+    prompts_path = os.path.join(DATA_DIR, f"{dataset}_subset.jsonl")
+    refs_path = os.path.join(DATA_DIR, f"{dataset}_refs.jsonl")
     write_jsonl(prompts_path, prompts)
     write_jsonl(refs_path, refs)
+
+
+def prepare_mixed_qa(n: int = DEFAULT_SUBSET, 
+                        split: str = "validation", 
+                        seed: int = SEED):
+    dataset= 'Cameron-Chen/mixed_qa'
+    random.seed(seed)
+    ds = load_dataset(dataset)[split]
+    indices = list(range(len(ds)))
+    random.shuffle(indices)
+    indices = indices[:n]
+    prompts = []
+    refs = []
+
+    
+def prepare_data_subset(dataset:str, DATA_DIR:str,
+                        n: int = DEFAULT_SUBSET, 
+                        split: str = "validation", 
+                        seed: int = SEED) -> Tuple[str, str]:
+    
     return prompts_path, refs_path
 
 # ---------- Step 3: Generation ----------
@@ -325,12 +352,12 @@ def check_dataset_downloaded() -> bool:
 def main():
     ap = argparse.ArgumentParser(description="TrustBench Phase 1 Orchestrator")
     ap.add_argument("--backend", choices=["ollama","mlx"], default="ollama")
+    ap.add_argument("--dataset", choices=["truthful_qa","Cameron-Chen/mixed_qa"], default="Cameron-Chen/mixed_qa")
     ap.add_argument("--subset", type=int, default=DEFAULT_SUBSET, help="Subset size for TruthfulQA")
     ap.add_argument("--metric", choices=["ask","em","f1","rouge","bertscore"], default="ask")
     ap.add_argument("--skip-generate", dest="skip_generate", action="store_true", help="Skip generation; only score existing outputs.jsonl")
     # New: reference-based extensions
     ap.add_argument("--factual-consistency", dest="do_factual", action="store_true", help="Compute factual consistency (n-gram + NLI entailment)")
-    ap.add_argument("--nli-model", default="roberta-large-mnli", help="HF model id for NLI (e.g., roberta-large-mnli, facebook/bart-large-mnli)")
     ap.add_argument("--citation-checks", dest="do_citation", action="store_true", help="Analyze citation integrity in model outputs")
     # Additional metrics
     ap.add_argument("--calibration", action="store_true", help="Run calibration metrics (ECE/Brier/AURC/ROC-AUC)")
@@ -363,13 +390,15 @@ def main():
     info(f"Model available ({args.backend}): {model_ok}")
 
     # Step 2: dataset prep
-    prompts_path = os.path.join(DATA_DIR, "truthfulqa_subset.jsonl")
-    refs_path = os.path.join(DATA_DIR, "truthfulqa_refs.jsonl")
+    DATA_DIR = os.path.join(DATA_BASE, args.dataset)
+    os.makedirs(DATA_DIR, exist_ok=True)
+    prompts_path = os.path.join(DATA_DIR, f"{args.dataset}_subset.jsonl")
+    refs_path = os.path.join(DATA_DIR, f"{args.dataset}_refs.jsonl")
     if not (os.path.exists(prompts_path) and os.path.exists(refs_path)):
-        info("Preparing TruthfulQA subset ...")
-        prompts_path, refs_path = prepare_truthfulqa_subset(args.subset)
+        info(f"Preparing {args.dataset} subset ...")
+        prompts_path, refs_path = prepare_data_subset(args.dataset, DATA_DIR, n=args.subset)
     else:
-        info("Using existing TruthfulQA subset.")
+        info(f"Using existing {args.dataset} subset.")
 
     # Step 3/5: generation and evaluation
     outputs_path = os.path.join(RESULTS_DIR, "outputs.jsonl")
