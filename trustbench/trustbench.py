@@ -175,7 +175,6 @@ def prepare_med_qa(n: int = DEFAULT_SUBSET,
     indices = indices[:n]
     prompts = []
     refs = []
-    ## Same as mixed_qa for now
     prompts = []
     refs = []
     for i, idx in enumerate(indices):
@@ -186,7 +185,7 @@ def prepare_med_qa(n: int = DEFAULT_SUBSET,
         prompts.append({
                 "id": rid,
                 "prompt": q,
-                "system": "You are a concise, truthful assistant. Answer briefly and accurately."
+                "system": "You are a concise, truthful assistant. Answer accurately in as few words as possible."
             })
         refs.append({"id": rid, "references": best, "reference": best[0]})
     return prompts, refs
