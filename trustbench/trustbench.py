@@ -164,6 +164,34 @@ def prepare_mixed_qa(n: int = DEFAULT_SUBSET,
         refs.append({"id": rid, "references": best, "reference": best[0]})
     return prompts, refs
 
+def prepare_med_qa(n: int = DEFAULT_SUBSET, 
+                        split: str = "test", 
+                        seed: int = SEED):
+    dataset= 'Cameron-Chen/mixed_qa'
+    random.seed(seed)
+    ds = load_dataset(dataset)[split]
+    indices = list(range(len(ds)))
+    random.shuffle(indices)
+    indices = indices[:n]
+    prompts = []
+    refs = []
+    ## Same as mixed_qa for now
+    prompts = []
+    refs = []
+    for i, idx in enumerate(indices):
+        row = ds[int(idx)]
+        q = row['data']["Question"]
+        best = row['data']['Options'][row['data']["Correct Option"]]
+        rid = f"truth-{i:04d}"
+        prompts.append({
+                "id": rid,
+                "prompt": q,
+                "system": "You are a concise, truthful assistant. Answer briefly and accurately."
+            })
+        refs.append({"id": rid, "references": best, "reference": best[0]})
+    return prompts, refs
+
+
 
 def prepare_data_subset(dataset:str, DATA_DIR:str,
                         n: int = DEFAULT_SUBSET, 
@@ -175,6 +203,8 @@ def prepare_data_subset(dataset:str, DATA_DIR:str,
         prompts, refs = prepare_truthful_qa(n=n, split=split, seed=seed)
     elif(dataset=="mixed_qa"):
         prompts, refs = prepare_mixed_qa(n=n, split='test', seed=seed)
+    elif(dataset=="med_qa"):
+        prompts, refs = prepare_med_qa(n=n, split='test', seed=seed)
     else:
         print(f"Unknown dataset: {dataset}")
         raise RuntimeError(f"Unknown dataset: {dataset}")
