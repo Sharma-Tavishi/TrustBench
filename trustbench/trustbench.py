@@ -14,7 +14,7 @@ from datasets import load_dataset
 
 # ---------- Config ----------
 MODEL_OLLAMA = "llama2:7b"
-DATASET= 'mixed_qa'
+DATASET= 'mixed_qa' ## Change to truthful_qa, mixed_qa or med_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
