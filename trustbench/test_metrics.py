@@ -179,10 +179,7 @@ def ensure_dirs():
 
 def prepare_subset(n: int, seed: int = 42) -> Tuple[str, str]:
     # Uses your helper to create small subset + references
-    if DATASET=="truthful_qa":
-        return prepare_data_subset(DATASET,DATA_DIR,n=n, split="validation", seed=seed)
-    else:
-        return prepare_data_subset(DATASET,DATA_DIR,n=n, split="validation", seed=seed)
+        return prepare_data_subset(DATASET,DATA_DIR,n=n, seed=seed)
 
 def maybe_generate(prompts_path: str, backend: str) -> str:
     out_path = os.path.join(RESULTS_DIR, "outputs.jsonl")
