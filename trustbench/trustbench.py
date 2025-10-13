@@ -18,7 +18,9 @@ DATASET= 'mixed_qa'
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
-RESULTS_DIR = os.path.join(RESULTS_BASE,MODEL_OLLAMA.split(":")[0])
+
+dir_name = f"{MODEL_OLLAMA.split(":")[0]}-{DATASET}"
+RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
 os.makedirs(DATA_BASE, exist_ok=True)
 os.makedirs(RESULTS_BASE, exist_ok=True)
 os.makedirs(RESULTS_DIR, exist_ok=True)
@@ -157,16 +159,18 @@ def prepare_mixed_qa(n: int = DEFAULT_SUBSET,
         prompts.append({
                 "id": rid,
                 "prompt": q,
-                "system": "You are a concise, truthful assistant. Answer briefly and accurately."
+                "system": "You are a truthful assistant. Answer accurately in as few words as possible."
             })
         refs.append({"id": rid, "references": best, "reference": best[0]})
-        return prompts, refs
+    return prompts, refs
 
 
 def prepare_data_subset(dataset:str, DATA_DIR:str,
                         n: int = DEFAULT_SUBSET, 
                         split: str = "validation", 
                         seed: int = SEED) -> Tuple[str, str]:
+    
+    print(f"Preparing subset of {n} from {dataset} ({split}) ...")
     if(dataset=="truthful_qa"):
         prompts, refs = prepare_truthful_qa(n=n, split=split, seed=seed)
     elif(dataset=="mixed_qa"):

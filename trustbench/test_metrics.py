@@ -334,15 +334,15 @@ def main():
     print("\n===== INITIAL TEST COMPLETE =====")
     print("Files to inspect (short list):")
     for p in [
-        "results/metrics_summary.json",
-        "results/fconsistency_summary.json",
-        "results/nli_summary.json",
-        "results/citation_summary.json",
-        "results/timeliness_summary.json",
-        "results/calibration_summary.json",
-        "results/safety_summary.json",
-        "results/robustness_summary.json",
-        "results/fairness_summary.json",
+        f"{RESULTS_DIR}/metrics_summary.json",
+        f"{RESULTS_DIR}/fconsistency_summary.json",
+        f"{RESULTS_DIR}/nli_summary.json",
+        f"{RESULTS_DIR}/citation_summary.json",
+        f"{RESULTS_DIR}/timeliness_summary.json",
+        f"{RESULTS_DIR}/calibration_summary.json",
+        f"{RESULTS_DIR}/safety_summary.json",
+        f"{RESULTS_DIR}/robustness_summary.json",
+        f"{RESULTS_DIR}/fairness_summary.json",
     ]:
         print(f" - {p}")
 
