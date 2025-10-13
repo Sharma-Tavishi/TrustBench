@@ -190,7 +190,31 @@ def prepare_med_qa(n: int = DEFAULT_SUBSET,
         refs.append({"id": rid, "references": best, "reference": best[0]})
     return prompts, refs
 
-
+def prepare_fin_qa(n: int = DEFAULT_SUBSET, 
+                        split: str = "test", 
+                        seed: int = SEED):
+    dataset= 'TheFinAI/FINQA_test'
+    random.seed(seed)
+    ds = load_dataset(dataset)[split]
+    indices = list(range(len(ds)))
+    random.shuffle(indices)
+    indices = indices[:n]
+    prompts = []
+    refs = []
+    prompts = []
+    refs = []
+    for i, idx in enumerate(indices):
+        row = ds[int(idx)]
+        q = row["Open-ended Verifiable Question"]
+        best = row['Ground-True Answer']
+        rid = f"truth-{i:04d}"
+        prompts.append({
+                "id": rid,
+                "prompt": q,
+                "system": "You are a concise, truthful assistant. Answer accurately in as few words as possible."
+            })
+        refs.append({"id": rid, "references": best, "reference": best[0]})
+    return prompts, refs
 
 def prepare_data_subset(dataset:str, DATA_DIR:str,
                         n: int = DEFAULT_SUBSET, 
@@ -203,6 +227,8 @@ def prepare_data_subset(dataset:str, DATA_DIR:str,
     elif(dataset=="mixed_qa"):
         prompts, refs = prepare_mixed_qa(n=n, split='test', seed=seed)
     elif(dataset=="med_qa"):
+        prompts, refs = prepare_med_qa(n=n, split='test', seed=seed)
+    elif(dataset=="fin_qa"):
         prompts, refs = prepare_med_qa(n=n, split='test', seed=seed)
     else:
         print(f"Unknown dataset: {dataset}")
