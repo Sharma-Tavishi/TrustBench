@@ -14,9 +14,9 @@ from datasets import load_dataset
 
 # ---------- Config ----------
 MODEL_OLLAMA = "llama2:7b"
-DATASET= 'Cameron-Chen/mixed_qa'
+DATASET= 'mixed_qa'
 DATA_BASE = "data"
-DATA_DIR = os.path.join(DATA_BASE, "Cameron-Chen/mixed_qa")
+DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
 RESULTS_DIR = os.path.join(RESULTS_BASE,MODEL_OLLAMA.split(":")[0])
 os.makedirs(DATA_BASE, exist_ok=True)
@@ -100,9 +100,9 @@ def ensure_model_mlx() -> bool:
         return False
 
 # ---------- Step 2: Download dataset (TruthfulQA) ----------
-def prepare_truthful_qa(n: int = DEFAULT_SUBSET, 
+def prepare_truthful_qa(n: int = DEFAULT_SUBSET,
                         split: str = "validation", 
-                        seed: int = SEED) -> Tuple[str, str]):
+                        seed: int = SEED):
     random.seed(seed)
     dataset= "truthful_qa"
     ds = load_dataset(dataset)[split]
@@ -135,14 +135,11 @@ def prepare_truthful_qa(n: int = DEFAULT_SUBSET,
         })
         # Store both a list for robust scoring and a single field for back-compat
         refs.append({"id": rid, "references": ref_list, "reference": best})
-    prompts_path = os.path.join(DATA_DIR, f"{dataset}_subset.jsonl")
-    refs_path = os.path.join(DATA_DIR, f"{dataset}_refs.jsonl")
-    write_jsonl(prompts_path, prompts)
-    write_jsonl(refs_path, refs)
+        return prompts, refs
 
 
 def prepare_mixed_qa(n: int = DEFAULT_SUBSET, 
-                        split: str = "validation", 
+                        split: str = "test", 
                         seed: int = SEED):
     dataset= 'Cameron-Chen/mixed_qa'
     random.seed(seed)
@@ -152,13 +149,37 @@ def prepare_mixed_qa(n: int = DEFAULT_SUBSET,
     indices = indices[:n]
     prompts = []
     refs = []
+    for i, idx in enumerate(indices):
+        row = ds[int(idx)]
+        q = row["problem"]
+        best = row['answer']
+        rid = f"truth-{i:04d}"
+        prompts.append({
+                "id": rid,
+                "prompt": q,
+                "system": "You are a concise, truthful assistant. Answer briefly and accurately."
+            })
+        refs.append({"id": rid, "references": best, "reference": best[0]})
+        return prompts, refs
 
-    
+
 def prepare_data_subset(dataset:str, DATA_DIR:str,
                         n: int = DEFAULT_SUBSET, 
                         split: str = "validation", 
                         seed: int = SEED) -> Tuple[str, str]:
-    
+    if(dataset=="truthful_qa"):
+        prompts, refs = prepare_truthful_qa(n=n, split=split, seed=seed)
+    elif(dataset=="mixed_qa"):
+        prompts, refs = prepare_mixed_qa(n=n, split='test', seed=seed)
+    else:
+        print(f"Unknown dataset: {dataset}")
+        raise RuntimeError(f"Unknown dataset: {dataset}")
+
+    prompts_path = os.path.join(DATA_DIR, f"{dataset}_subset.jsonl")
+    refs_path = os.path.join(DATA_DIR, f"{dataset}_refs.jsonl")
+    write_jsonl(prompts_path, prompts)
+    write_jsonl(refs_path, refs)
+
     return prompts_path, refs_path
 
 # ---------- Step 3: Generation ----------
@@ -352,7 +373,7 @@ def check_dataset_downloaded() -> bool:
 def main():
     ap = argparse.ArgumentParser(description="TrustBench Phase 1 Orchestrator")
     ap.add_argument("--backend", choices=["ollama","mlx"], default="ollama")
-    ap.add_argument("--dataset", choices=["truthful_qa","Cameron-Chen/mixed_qa"], default="Cameron-Chen/mixed_qa")
+    ap.add_argument("--dataset", choices=["truthful_qa","mixed_qa"], default="mixed_qa")
     ap.add_argument("--subset", type=int, default=DEFAULT_SUBSET, help="Subset size for TruthfulQA")
     ap.add_argument("--metric", choices=["ask","em","f1","rouge","bertscore"], default="ask")
     ap.add_argument("--skip-generate", dest="skip_generate", action="store_true", help="Skip generation; only score existing outputs.jsonl")
