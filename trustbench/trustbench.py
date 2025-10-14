@@ -14,7 +14,7 @@ from datasets import load_dataset
 
 # ---------- Config ----------
 MODEL_OLLAMA = "llama2:7b"
-DATASET= 'mixed_qa' ## Change to truthful_qa, mixed_qa or med_qa
+DATASET= 'med_qa' ## Change to truthful_qa, mixed_qa or med_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
@@ -123,7 +123,7 @@ def prepare_truthful_qa(n: int = DEFAULT_SUBSET,
         ref_list = []
         if best:
             ref_list.append(best)
-        # ensure strings & strip
+        # ensure strings & stripz
         for r in extra:
             if isinstance(r, str):
                 r = r.strip()
@@ -167,7 +167,7 @@ def prepare_mixed_qa(n: int = DEFAULT_SUBSET,
 def prepare_med_qa(n: int = DEFAULT_SUBSET, 
                         split: str = "test", 
                         seed: int = SEED):
-    dataset= 'Cameron-Chen/mixed_qa'
+    dataset= 'openlifescienceai/medqa'
     random.seed(seed)
     ds = load_dataset(dataset)[split]
     indices = list(range(len(ds)))
@@ -185,7 +185,7 @@ def prepare_med_qa(n: int = DEFAULT_SUBSET,
         prompts.append({
                 "id": rid,
                 "prompt": q,
-                "system": "You are a concise, truthful assistant. Answer accurately in as few words as possible."
+                "system": "Answer accurately in 10 words or less."
             })
         refs.append({"id": rid, "references": best, "reference": best[0]})
     return prompts, refs
@@ -197,7 +197,7 @@ def prepare_data_subset(dataset:str, DATA_DIR:str,
                         split: str = "validation", 
                         seed: int = SEED) -> Tuple[str, str]:
     
-    print(f"Preparing subset of {n} from {dataset} ({split}) ...")
+    print(f"Preparing subset of {n} from {dataset} ...")
     if(dataset=="truthful_qa"):
         prompts, refs = prepare_truthful_qa(n=n, split=split, seed=seed)
     elif(dataset=="mixed_qa"):
