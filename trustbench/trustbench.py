@@ -14,7 +14,7 @@ from datasets import load_dataset
 
 # ---------- Config ----------
 MODEL_OLLAMA = "llama2:7b"
-DATASET= 'mixed_qa' ## Change to truthful_qa, mixed_qa or med_qa
+DATASET= 'fin_qa' ## Change to truthful_qa, mixed_qa or med_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
@@ -230,7 +230,7 @@ def prepare_data_subset(dataset:str, DATA_DIR:str,
     elif(dataset=="med_qa"):
         prompts, refs = prepare_med_qa(n=n, split='test', seed=seed)
     elif(dataset=="fin_qa"):
-        prompts, refs = prepare_med_qa(n=n, split='test', seed=seed)
+        prompts, refs = prepare_fin_qa(n=n, split='test', seed=seed)
     else:
         print(f"Unknown dataset: {dataset}")
         raise RuntimeError(f"Unknown dataset: {dataset}")
