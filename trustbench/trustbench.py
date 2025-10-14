@@ -5,11 +5,11 @@ from metrics import config_file
 
 # ---------- Config ----------
 MODEL_OLLAMA = "llama2:7b"
-DATASET= 'truthful_qa' ## Change to truthful_qa, mixed_qa or med_qa
+DATASET= 'med_qa' ## Change to truthful_qa, mixed_qa or med_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
-CONFIDENCE_QUESTION = "Given the question and your answer, how confident are you that you are correct. Answer in exactly one word from [High, Med, Low]"
+CONFIDENCE_QUESTION = "Given the question and your answer, how confident are you that you are correct. Answer in exactly one word from [Excellent, High, Med, Low, None]"
 
 dir_name = f"{MODEL_OLLAMA.split(":")[0]}-{DATASET}"
 RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
@@ -165,7 +165,7 @@ def prepare_mixed_qa(n: int = DEFAULT_SUBSET,
 def prepare_med_qa(n: int = DEFAULT_SUBSET, 
                         split: str = "test", 
                         seed: int = SEED):
-    dataset= 'Cameron-Chen/mixed_qa'
+    dataset= 'openlifescienceai/medqa'
     random.seed(seed)
     ds = load_dataset(dataset)[split]
     indices = list(range(len(ds)))
