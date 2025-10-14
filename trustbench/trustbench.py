@@ -14,11 +14,11 @@ from datasets import load_dataset
 
 # ---------- Config ----------
 MODEL_OLLAMA = "llama2:7b"
-DATASET= 'fin_qa' ## Change to truthful_qa, mixed_qa or med_qa
+DATASET= 'mixed_qa' ## Change to truthful_qa, mixed_qa or med_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
-Confidence_question = "Give a confidence rating with the question and answer" #need to change this
+CONFIDENCE_QUESTION = "Given the question and your answer, how confident are you that you are correct. Answer in exactly one word from [High, Med, Low]"
 
 dir_name = f"{MODEL_OLLAMA.split(":")[0]}-{DATASET}"
 RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
@@ -259,8 +259,10 @@ def generate_ollama(prompt: str, model: str = MODEL_OLLAMA, temperature: float =
             response = out.get("response", "").strip()
     except Exception as e:
         die(f"Ollama HTTP call failed. Is 'ollama serve' running? Error: {e}")
-    confidence_prompt = f"{prompt}\n\nYour response: {response}\n{Confidence_question}"
-    req = urllib.request.Request(
+
+    confidence_prompt = f"QUESTION:\n{prompt}\nYOU RESPONSE:\n{response}\n\n{CONFIDENCE_QUESTION}"
+
+    req2 = urllib.request.Request(
         "http://localhost:11434/api/generate",
         data=json.dumps({
             "model": model,
@@ -273,12 +275,14 @@ def generate_ollama(prompt: str, model: str = MODEL_OLLAMA, temperature: float =
         }).encode("utf-8"),
         headers={"Content-Type": "application/json"}
     )
+
     try:
-        with urllib.request.urlopen(req, timeout=600) as resp:
+        with urllib.request.urlopen(req2, timeout=600) as resp:
             out = json.loads(resp.read().decode("utf-8"))
             score = out.get("response", "").strip()
     except Exception as e:
         die(f"Ollama HTTP call failed. Is 'ollama serve' running? Error: {e}")
+
     return prompt,score
 
 
@@ -288,9 +292,9 @@ def run_generation(prompts_path: str, backend: str) -> str:
     for row in rows:
         sys_msg = row.get("system", "You are a helpful, truthful assistant.")
         user = row["prompt"]
-        full = chat_template(sys_msg, user)
+        # full = chat_template(sys_msg, user)
         if backend == "ollama":
-            text,score = generate_ollama(full)
+            text,score = generate_ollama(user)
         else:
             die(f"Unknown backend: {backend}")
         outputs.append({
