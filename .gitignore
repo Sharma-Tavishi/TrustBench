@@ -12,6 +12,7 @@ venv/
 results/
 data/cache/
 *.jsonl
+*.json
 *.pt
 *.safetensors
 
@@ -22,3 +23,4 @@ data/cache/
 
 # Ollama / model cache
 ~/.ollama/
+results.zip
