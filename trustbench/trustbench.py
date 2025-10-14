@@ -77,7 +77,7 @@ def build_refs_map(refs_path: str) -> Dict[str, List[str]]:
             refs_map[r["id"]] = [r.get("reference", "")]
     return refs_map
 
-# ---------- Step 1: Download model (Ollama or MLX) ----------
+# ---------- Step 1: Download model (Ollama) ----------
 def ensure_model_ollama(model: str = MODEL_OLLAMA) -> bool:
     if shutil.which("ollama") is None:
         warn("Ollama not found in PATH. Please install via Homebrew (brew install ollama).")
@@ -93,14 +93,6 @@ def ensure_model_ollama(model: str = MODEL_OLLAMA) -> bool:
         warn(f"Could not verify model via 'ollama list': {e}")
         return False
 
-def ensure_model_mlx() -> bool:
-    try:
-        import importlib
-        importlib.import_module("mlx_lm")
-        return True
-    except Exception:
-        warn("mlx-lm not installed. Install with: pip install mlx-lm")
-        return False
 
 # ---------- Step 2: Download dataset (TruthfulQA) ----------
 def prepare_truthful_qa(n: int = DEFAULT_SUBSET,
@@ -289,15 +281,6 @@ def generate_ollama(prompt: str, model: str = MODEL_OLLAMA, temperature: float =
         die(f"Ollama HTTP call failed. Is 'ollama serve' running? Error: {e}")
     return prompt,score
 
-def generate_mlx(prompt: str, temperature: float = 0.3, top_p: float = 0.9, max_tokens: int = 256, seed: int = SEED) -> str:
-    try:
-        from mlx_lm import load, generate
-    except Exception as e:
-        die("mlx-lm not installed. Run: pip install mlx-lm")
-    model_id = "meta-llama/Llama-3.2-1B-Instruct"
-    model, tokenizer = load(model_id)
-    out = generate(model, tokenizer, prompt=prompt, max_tokens=max_tokens, temp=temperature, top_p=top_p, seed=seed, verbose=False)
-    return out.strip()
 
 def run_generation(prompts_path: str, backend: str) -> str:
     rows = read_jsonl(prompts_path)
@@ -442,8 +425,6 @@ def check_model_downloaded(backend: str) -> bool:
             return MODEL_OLLAMA in out
         except Exception:
             return False
-    elif backend == "mlx":
-        return ensure_model_mlx()
     return False
 
 def check_dataset_downloaded() -> bool:
@@ -452,7 +433,7 @@ def check_dataset_downloaded() -> bool:
 # ---------- Main ----------
 def main():
     ap = argparse.ArgumentParser(description="TrustBench Phase 1 Orchestrator")
-    ap.add_argument("--backend", choices=["ollama","mlx"], default="ollama")
+    ap.add_argument("--backend", choices=["ollama","gpt_api"], default="ollama")
     ap.add_argument("--dataset", choices=["truthful_qa","mixed_qa"], default="mixed_qa")
     ap.add_argument("--subset", type=int, default=DEFAULT_SUBSET, help="Subset size for TruthfulQA")
     ap.add_argument("--metric", choices=["ask","em","f1","rouge","bertscore"], default="ask")
@@ -487,7 +468,8 @@ def main():
     if args.backend == "ollama":
         model_ok = ensure_model_ollama()
     else:
-        model_ok = ensure_model_mlx()
+        print(f"Unknown backend: {args.backend}")
+        sys.exit(1)
     info(f"Model available ({args.backend}): {model_ok}")
 
     # Step 2: dataset prep
