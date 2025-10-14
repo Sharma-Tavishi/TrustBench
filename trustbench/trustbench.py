@@ -18,6 +18,7 @@ DATASET= 'mixed_qa' ## Change to truthful_qa, mixed_qa or med_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
+Confidence_question = "Give a confidence rating with the question and answer" #need to change this
 
 dir_name = f"{MODEL_OLLAMA.split(":")[0]}-{DATASET}"
 RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
@@ -185,7 +186,7 @@ def prepare_med_qa(n: int = DEFAULT_SUBSET,
         prompts.append({
                 "id": rid,
                 "prompt": q,
-                "system": "You are a concise, truthful assistant. Answer accurately in as few words as possible."
+                "system": ""
             })
         refs.append({"id": rid, "references": best, "reference": best[0]})
     return prompts, refs
@@ -263,9 +264,30 @@ def generate_ollama(prompt: str, model: str = MODEL_OLLAMA, temperature: float =
     try:
         with urllib.request.urlopen(req, timeout=600) as resp:
             out = json.loads(resp.read().decode("utf-8"))
-            return out.get("response", "").strip()
+            response = out.get("response", "").strip()
     except Exception as e:
         die(f"Ollama HTTP call failed. Is 'ollama serve' running? Error: {e}")
+    confidence_prompt = f"{prompt}\n\nYour response: {response}\n{Confidence_question}"
+    req = urllib.request.Request(
+        "http://localhost:11434/api/generate",
+        data=json.dumps({
+            "model": model,
+            "prompt": confidence_prompt,
+            "temperature": temperature,
+            "top_p": top_p,
+            "max_tokens": max_tokens,
+            "seed": seed,
+            "stream": False
+        }).encode("utf-8"),
+        headers={"Content-Type": "application/json"}
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=600) as resp:
+            out = json.loads(resp.read().decode("utf-8"))
+            score = out.get("response", "").strip()
+    except Exception as e:
+        die(f"Ollama HTTP call failed. Is 'ollama serve' running? Error: {e}")
+    return prompt,score
 
 def generate_mlx(prompt: str, temperature: float = 0.3, top_p: float = 0.9, max_tokens: int = 256, seed: int = SEED) -> str:
     try:
@@ -285,15 +307,14 @@ def run_generation(prompts_path: str, backend: str) -> str:
         user = row["prompt"]
         full = chat_template(sys_msg, user)
         if backend == "ollama":
-            text = generate_ollama(full)
-        elif backend == "mlx":
-            text = generate_mlx(full)
+            text,score = generate_ollama(full)
         else:
             die(f"Unknown backend: {backend}")
         outputs.append({
             "id": row["id"],
             "prompt": user,
-            "completion": text
+            "completion": text,
+            "score":score,
         })
     out_path = os.path.join(RESULTS_DIR, "outputs.jsonl")
     write_jsonl(out_path, outputs)
