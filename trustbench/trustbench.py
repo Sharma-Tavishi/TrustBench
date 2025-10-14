@@ -11,7 +11,6 @@ DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
 CONFIDENCE_QUESTION = "Given the question and your answer, how confident are you that you are correct. Answer in exactly one word from [High, Med, Low]"
 
-
 dir_name = f"{MODEL_OLLAMA.split(":")[0]}-{DATASET}"
 RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
 os.makedirs(DATA_BASE, exist_ok=True)
@@ -110,6 +109,7 @@ def prepare_truthful_qa(n: int = DEFAULT_SUBSET,
     indices = list(range(len(ds)))
     random.shuffle(indices)
     indices = indices[:n]
+    print("Loaded TruthfulQA dataset with {} items, using subset of {}.".format(len(ds), len(indices)))
     prompts = []
     refs = []
     for i, idx in enumerate(indices):
@@ -135,7 +135,7 @@ def prepare_truthful_qa(n: int = DEFAULT_SUBSET,
         })
         # Store both a list for robust scoring and a single field for back-compat
         refs.append({"id": rid, "references": ref_list, "reference": best})
-        return prompts, refs
+    return prompts, refs
 
 
 def prepare_mixed_qa(n: int = DEFAULT_SUBSET, 
