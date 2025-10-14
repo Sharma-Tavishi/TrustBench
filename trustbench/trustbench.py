@@ -5,7 +5,7 @@ from metrics import config_file
 
 # ---------- Config ----------
 MODEL_OLLAMA = "llama2:7b"
-DATASET= 'med_qa' ## Change to truthful_qa, mixed_qa or med_qa
+DATASET= 'truthful_qa' ## Change to truthful_qa, mixed_qa or med_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
