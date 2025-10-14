@@ -5,7 +5,7 @@ from metrics import config_file
 
 # ---------- Config ----------
 MODEL_OLLAMA = "llama2:7b"
-DATASET= 'fin_qa' ## Change to truthful_qa, mixed_qa or med_qa
+DATASET= 'truthful_qa' ## Change to truthful_qa, mixed_qa or med_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
@@ -105,7 +105,7 @@ def prepare_truthful_qa(n: int = DEFAULT_SUBSET,
                         seed: int = SEED):
     random.seed(seed)
     dataset= "truthful_qa"
-    ds = load_dataset(dataset)[split]
+    ds = load_dataset(dataset,'generation')[split]
     # Each row has 'question' and 'best_answer' (plus more fields); use best_answer as reference.
     indices = list(range(len(ds)))
     random.shuffle(indices)
