@@ -15,7 +15,9 @@ import os, json, time
 from collections import Counter
 from utils.text import normalize, tokenize
 
-RESULTS_DIR = "results"
+import metrics.config_file as config_file 
+
+RESULTS_DIR = config_file.RESULTS_DIR
 
 # ---------- Sub-metrics ----------
 def exact_match(pred: str, ref: str) -> int:

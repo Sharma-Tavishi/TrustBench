@@ -10,8 +10,9 @@ from typing import List, Dict, Any
 import os, json
 import numpy as np
 from sklearn.metrics import roc_auc_score
+import metrics.config_file as config_file 
 
-RESULTS_DIR = "results"
+RESULTS_DIR = config_file.RESULTS_DIR
 
 def expected_calibration_error(conf: np.ndarray, correct: np.ndarray, bins: int = 10) -> float:
     edges = np.linspace(0.0, 1.0, bins+1)
@@ -78,6 +79,7 @@ def evaluate_calibration(items: List[Dict[str,Any]], out_prefix="calibration"):
         "coverage_risk": cr["curve"],
         "n": int(conf.size)
     }
+    print("Calibration results dir:", RESULTS_DIR)
     with open(os.path.join(RESULTS_DIR, f"{out_prefix}_summary.json"), "w") as f:
         json.dump(summary, f, indent=2)
     return summary

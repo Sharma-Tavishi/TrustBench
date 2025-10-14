@@ -1,6 +1,28 @@
 #!/usr/bin/env python3
 import os, sys, json, random, time, shutil, argparse
 from typing import List, Dict, Any, Tuple
+from metrics import config_file
+
+# ---------- Config ----------
+MODEL_OLLAMA = "llama2:7b"
+DATASET= 'fin_qa' ## Change to truthful_qa, mixed_qa or med_qa
+DATA_BASE = "data"
+DATA_DIR = os.path.join(DATA_BASE, DATASET)
+RESULTS_BASE = "results"
+CONFIDENCE_QUESTION = "Given the question and your answer, how confident are you that you are correct. Answer in exactly one word from [High, Med, Low]"
+
+
+dir_name = f"{MODEL_OLLAMA.split(":")[0]}-{DATASET}"
+RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
+os.makedirs(DATA_BASE, exist_ok=True)
+os.makedirs(RESULTS_BASE, exist_ok=True)
+os.makedirs(RESULTS_DIR, exist_ok=True)
+
+config_file.RESULTS_DIR = RESULTS_DIR
+
+DEFAULT_SUBSET = 150
+SEED = 42
+
 
 # Metrics extensions
 from metrics.factual_consistency import evaluate_factual_consistency
@@ -11,23 +33,6 @@ from metrics.fairness import compute_slice_metrics, evaluate_counterfactual
 from metrics.timeliness import evaluate_time_aware
 from metrics.safety import score_safety
 from datasets import load_dataset
-
-# ---------- Config ----------
-MODEL_OLLAMA = "llama2:7b"
-DATASET= 'mixed_qa' ## Change to truthful_qa, mixed_qa or med_qa
-DATA_BASE = "data"
-DATA_DIR = os.path.join(DATA_BASE, DATASET)
-RESULTS_BASE = "results"
-CONFIDENCE_QUESTION = "Given the question and your answer, how confident are you that you are correct. Answer in exactly one word from [High, Med, Low]"
-
-dir_name = f"{MODEL_OLLAMA.split(":")[0]}-{DATASET}"
-RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
-os.makedirs(DATA_BASE, exist_ok=True)
-os.makedirs(RESULTS_BASE, exist_ok=True)
-os.makedirs(RESULTS_DIR, exist_ok=True)
-
-DEFAULT_SUBSET = 150
-SEED = 42
 
 import re
 ARTICLES = {"a", "an", "the"}
@@ -188,7 +193,7 @@ def prepare_fin_qa(n: int = DEFAULT_SUBSET,
                         seed: int = SEED):
     dataset= 'TheFinAI/FINQA_test'
     random.seed(seed)
-    ds = load_dataset(dataset)[split]
+    ds = load_dataset(dataset, split='test')
     indices = list(range(len(ds)))
     random.shuffle(indices)
     indices = indices[:n]

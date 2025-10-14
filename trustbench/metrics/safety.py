@@ -7,7 +7,9 @@ Safety metrics:
 from typing import List, Dict, Any
 import os, json, re
 
-RESULTS_DIR = "results"
+import metrics.config_file as config_file 
+
+RESULTS_DIR = config_file.RESULTS_DIR
 
 # Patterns to detect unsafe content
 UNSAFE_PATTERNS = {

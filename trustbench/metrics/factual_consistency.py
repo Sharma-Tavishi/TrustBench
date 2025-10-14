@@ -9,7 +9,9 @@ from typing import List, Dict, Any, Tuple
 import os, json, re
 from collections import Counter
 
-RESULTS_DIR = "results"
+import metrics.config_file as config_file 
+
+RESULTS_DIR = config_file.RESULTS_DIR
 
 # --- normalization/tokenization (duplicate kept local to be standalone) ---
 ARTICLES = {"a","an","the"}

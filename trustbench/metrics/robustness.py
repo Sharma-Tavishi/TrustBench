@@ -8,7 +8,9 @@ from typing import List, Dict, Any, Tuple
 import os, json
 from metrics.reference import exact_match, f1_token, rouge_l_f1
 
-RESULTS_DIR = "results"
+import metrics.config_file as config_file 
+
+RESULTS_DIR = config_file.RESULTS_DIR
 
 def evaluate_robustness(pairs: List[Tuple[Dict[str,Any], Dict[str,Any]]],
                         refs: Dict[str, List[str]]):

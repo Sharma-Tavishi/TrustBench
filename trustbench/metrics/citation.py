@@ -9,7 +9,9 @@ Note: This checks internal consistency/formatting, not whether links resolve.
 from typing import List, Dict, Any, Tuple
 import os, json, re
 
-RESULTS_DIR = "results"
+import metrics.config_file as config_file 
+
+RESULTS_DIR = config_file.RESULTS_DIR
 
 URL_RE  = re.compile(r"https?://[^\s)>\]]+", re.I)
 DOI_RE  = re.compile(r"\b10\.\d{4,9}/[-._;()/:A-Z0-9]+\b", re.I)

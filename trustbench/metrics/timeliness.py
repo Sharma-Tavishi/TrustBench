@@ -8,7 +8,9 @@ from typing import List, Dict, Any
 import os, json, math, re, datetime as dt
 from utils.text import normalize
 
-RESULTS_DIR = "results"
+import metrics.config_file as config_file 
+
+RESULTS_DIR = config_file.RESULTS_DIR
 DATE_RE = re.compile(r"\b(19|20)\d{2}\b")
 
 def recency_decay(days: float, half_life_days: float = 180.0) -> float:

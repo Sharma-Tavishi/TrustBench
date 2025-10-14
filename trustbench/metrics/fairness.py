@@ -7,7 +7,9 @@ Fairness metrics:
 from typing import List, Dict, Any, Tuple
 import os, json, numpy as np
 
-RESULTS_DIR = "results"
+import metrics.config_file as config_file 
+
+RESULTS_DIR = config_file.RESULTS_DIR
 
 # --- Helper: bootstrap confidence intervals ---
 def _bootstrap_ci(vals: List[float], n_boot=1000, alpha=0.05):
