@@ -3,8 +3,8 @@
 Initial test for core metrics on a small sample (n=10).
 
 What it does:
-1) Prepare a 10-example TruthfulQA subset (data/truthfulqa_subset.jsonl, data/truthfulqa_refs.jsonl)
-2) Generate model outputs via Ollama or MLX (results/outputs.jsonl)
+1) Prepare a 10-example TruthfulQA subset (data/truthful_qa_subset.jsonl, data/truthful_qa_refs.jsonl)
+2) Generate model outputs via the OpenAI API (results/outputs.jsonl)
 3) Run reference-based metrics (EM/F1/ROUGE + optional BERTScore via --bertscore)
 4) Run factual consistency (n-gram + NLI entailment; choose model with --nli-model)
 5) Inject a citation-style output row to test citation integrity; run citation checks
@@ -17,11 +17,15 @@ Sanity checks printed to stdout:
 - Timeliness scores are within [0,1] and average makes sense
 
 Usage:
-  python test_metrics.py --backend ollama --subset 10 --nli-model facebook/bart-large-mnli
+  python test_metrics.py --subset 10 --nli-model facebook/bart-large-mnli
 """
 
-import os, json, random, argparse, datetime as dt
+import os, json, random, argparse, datetime as dt, re
 from typing import Dict, List, Any, Tuple
+
+from dotenv import load_dotenv
+from openai import OpenAI
+import pathlib
 
 # Local imports from your codebase
 from trustbench import (
@@ -45,19 +49,15 @@ from metrics.safety import score_safety
 from metrics.robustness import evaluate_robustness
 from metrics.fairness import compute_slice_metrics
 from metrics.reference import exact_match, f1_token, rouge_l_f1
-import subprocess, re
+
+# --- OpenAI client for calibration helper ---
+load_dotenv()
+if pathlib.Path("API_key.txt").exists() and not os.getenv("OPENAI_API_KEY"):
+    os.environ["OPENAI_API_KEY"] = pathlib.Path("API_key.txt").read_text().strip()
+_OAI = OpenAI()
+
  # ---- Calibration helpers ----
 _NUM_RE = re.compile(r"(\d+(\.\d+)?)")
-
-def ollama_chat(messages, model="llama3.2:1b") -> str:
-    """Minimal Ollama runner for a single-turn prompt."""
-    prompt = "\n".join([f"{m['role'].upper()}: {m['content']}" for m in messages])
-    cmd = ["ollama", "run", model]
-    proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
-    out, err = proc.communicate(prompt)
-    if proc.returncode != 0:
-        raise RuntimeError(f"Ollama failed: {err}")
-    return out.strip()
 
 def parse_conf_number(s: str) -> float:
     """Extract first numeric token; accept 0..1 or 0..100 and clamp to [0,1]."""
@@ -69,7 +69,7 @@ def parse_conf_number(s: str) -> float:
         v = v / 100.0
     return max(0.0, min(1.0, v))
 
-def collect_confidences_with_ollama(outputs_path: str, model: str = "llama3.2:1b"):
+def collect_confidences_with_openai(outputs_path: str, model: str = "gpt-4.1-mini"):
     """Read outputs.jsonl, ask model for a single numeric confidence per row, write outputs_with_confidence.jsonl and return list."""
     rows = read_jsonl(outputs_path)
     out = []
@@ -85,9 +85,14 @@ def collect_confidences_with_ollama(outputs_path: str, model: str = "llama3.2:1b
             "Your confidence in the factual correctness of this answer (ONLY a number):"
         )
         try:
-            reply = ollama_chat(
-                [{"role": "system", "content": system}, {"role": "user", "content": user}],
+            resp = _OAI.responses.create(
                 model=model,
+                input=[{"role": "system", "content": system}, {"role": "user", "content": user}],
+                temperature=0.0,
+                max_output_tokens=8,
+            )
+            reply = getattr(resp, "output_text", None) or (
+                resp.output[0].content[0].text if getattr(resp, "output", None) else ""
             )
             conf = parse_conf_number(reply)
         except Exception:
@@ -181,10 +186,10 @@ def prepare_subset(n: int, seed: int = 42) -> Tuple[str, str]:
     # Uses your helper to create small subset + references
         return prepare_data_subset(DATASET,DATA_DIR,n=n, seed=seed)
 
-def maybe_generate(prompts_path: str, backend: str) -> str:
+def maybe_generate(prompts_path: str) -> str:
     out_path = os.path.join(RESULTS_DIR, "outputs.jsonl")
     # Always (re)generate for this initial test to keep it honest
-    return run_generation(prompts_path, backend)
+    return run_generation(prompts_path)
 
 def run_reference(outputs_path: str, refs_path: str, primary="rouge", do_bertscore=False) -> Dict[str, Any]:
     spath, summary = evaluate_reference(outputs_path, refs_path, primary, do_bertscore=do_bertscore)
@@ -274,7 +279,6 @@ def run_timeliness(outputs_path: str, time_refs: Dict[str, List[Dict[str, Any]]]
 
 def main():
     ap = argparse.ArgumentParser(description="Initial test for TrustBench core metrics (10 examples).")
-    ap.add_argument("--backend", choices=["ollama","mlx"], default="ollama", help="Generation backend")
     ap.add_argument("--subset", type=int, default=10, help="Subset size (default 10)")
     ap.add_argument("--nli-model", default="facebook/bart-large-mnli", help="NLI model for entailment")
     ap.add_argument("--bertscore", action="store_true", help="Also compute BERTScore in reference metrics")
@@ -286,7 +290,7 @@ def main():
     prompts_path, refs_path = prepare_subset(args.subset, seed=42)
 
     # 2) Generate outputs
-    outputs_path = maybe_generate(prompts_path, backend=args.backend)
+    outputs_path = maybe_generate(prompts_path)
 
     # 3) Reference-based metrics
     ref_sum = run_reference(outputs_path, refs_path, primary="rouge", do_bertscore=args.bertscore)
@@ -303,9 +307,9 @@ def main():
     trefs = build_simple_time_refs(refs_path)
     time_sum = run_timeliness(outputs_path, trefs, ref_date=today)
 
-    # 7) Calibration (collect confidences with Llama, then evaluate)
+    # 7) Calibration (collect confidences with OpenAI, then evaluate)
     try:
-        outs_conf = collect_confidences_with_ollama(outputs_path, model="llama3.2:1b")
+        outs_conf = collect_confidences_with_openai(outputs_path, model="gpt-4.1-mini")
         run_calibration(outs_conf, refs_path, out_prefix="calibration")
     except Exception as e:
         print(f"Calibration skipped due to error: {e}")
