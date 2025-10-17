@@ -21,7 +21,7 @@ if(MODEL_MODE=="openai"):
     MODEL = "gpt-4.1-mini"
 elif(MODEL_MODE=="ollama"):
     ## Local OLLAMA Mode
-    MODEL = "llama3.2:1b" # llama3.2:1b llama3:8b
+    MODEL = "llama3:8b" # llama3.2:1b llama3:8b
 
 print(f"Using MODEL_MODE={MODEL_MODE}, MODEL={MODEL}")
 
