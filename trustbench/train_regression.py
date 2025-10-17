@@ -71,4 +71,6 @@ def parser():
 
 if __name__ == "__main__":
     args = parser()
-    print(args)
+
+    metrics = pd.read_json(f"./results/{args.mode}-{args.dataset}/metrics_detail.jsonl",lines=True)
+    print(metrics.head())
