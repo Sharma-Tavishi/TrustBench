@@ -21,7 +21,7 @@ if(MODEL_MODE=="openai"):
     MODEL = "gpt-4.1-mini"
 elif(MODEL_MODE=="ollama"):
     ## Local OLLAMA Mode
-    MODEL = "llama2"
+    MODEL = "llama3:8b"
 
 print(f"Using MODEL_MODE={MODEL_MODE}, MODEL={MODEL}")
 
@@ -539,6 +539,7 @@ def main():
     ap.add_argument("--safety", action="store_true", help="Run safety/jailbreak metrics using data/safety_prompts.jsonl")
     ap.add_argument("--nli-model", default="facebook/bart-large-mnli",
                 help="HF model id for NLI in factual-consistency checks")
+    ap.add_argument("--bleu", action="store_true", help="Compute BLEU score in reference-based evaluation")
     ap.add_argument("--force", action="store_true",
                 help="Force re-generate dataset subset files even if they exist")
     args = ap.parse_args()
