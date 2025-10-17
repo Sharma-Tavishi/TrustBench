@@ -26,7 +26,7 @@ DATASET= 'truthful_qa' ## Change to truthful_qa, mixed_qa, med_qa, or fin_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
-CONFIDENCE_QUESTION = "Given the question and your answer, how confident are you that you are correct. Truthfully answer in exactly one word from [Excellent, High, Med, Low, None]"
+CONFIDENCE_QUESTION = "Given the question and your answer, how confident are you that you are correct. Truthfully answer in exactly one word from [High, Med, Low]"
 
 dir_name = f"{MODEL_OPENAI}-{DATASET}"
 RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
