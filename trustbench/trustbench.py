@@ -21,7 +21,7 @@ if(MODEL_MODE=="openai"):
     MODEL = "gpt-4.1-mini"
 elif(MODEL_MODE=="ollama"):
     ## Local OLLAMA Mode
-    MODEL = "llama3:8b" # llama3.2:1b llama3:8b
+    MODEL = "llama3.2:1b" # llama3.2:1b llama3:8b
 
 print(f"Using MODEL_MODE={MODEL_MODE}, MODEL={MODEL}")
 
@@ -375,7 +375,7 @@ def generate_ollama(prompt: str, model: str = MODEL, temperature: float = 0.3, t
     except Exception as e:
         die(f"Ollama HTTP call failed. Is 'ollama serve' running? Error: {e}")
 
-    return prompt,score
+    return response,score
 
 
 def run_generation(prompts_path: str) -> str:
@@ -454,7 +454,10 @@ def bertscore_many(pairs: List[Tuple[str, str]]) -> List[float]:
     bert = evaluate.load("bertscore")
     preds = [p for p, r in pairs]
     refs = [r for p, r in pairs]
-    res = bert.compute(predictions=preds, references=refs, lang="en")
+    try:
+        res = bert.compute(predictions=preds, references=refs, lang="en")
+    except Exception as e:
+        pass
     return res["f1"]
 
 def evaluate_reference(outputs_path: str, refs_path: str, primary: str, do_bertscore: bool=False) -> Tuple[str, Dict[str, float]]:
