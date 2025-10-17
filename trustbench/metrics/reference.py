@@ -13,12 +13,18 @@ from typing import List, Tuple, Dict, Any
 import os, json, time
 from collections import Counter
 from utils.text import normalize, tokenize
+try:
+    from sacrebleu.metrics import BLEU
+    bleu = BLEU()
+except Exception as e:
+    raise RuntimeError("BLEU requires sacrebleu. Run: pip install sacrebleu") from e
 
 import metrics.config_file as config_file 
 
 RESULTS_DIR = config_file.RESULTS_DIR
 
 # ---------- Sub-metrics ----------
+
 def f1_token(pred: str, ref: str) -> float:
     """Token-level F1: measures partial correctness via token overlap."""
     pt, rt = tokenize(pred), tokenize(ref)
@@ -57,16 +63,12 @@ def bleu_corpus(preds: List[str], refs: List[List[str]]) -> float:
     Corpus BLEU using sacrebleu. Each pred has 1+ references.
     We pass references transposed to sacrebleu: List[refs_k] where refs_k is k-th reference for all sentences.
     """
-    try:
-        import sacrebleu
-    except Exception as e:
-        raise RuntimeError("BLEU requires sacrebleu. Run: pip install sacrebleu") from e
     # Transpose refs to sacrebleu format
     max_refs = max(len(r) for r in refs)
     refs_t = []
     for k in range(max_refs):
         refs_t.append([ (rs[k] if k < len(rs) else rs[0]) for rs in refs ])
-    return float(sacrebleu.corpus_bleu(preds, refs_t).score)  # sacrebleu returns score in [0,100]
+    return float(bleu.corpus_score(preds, refs_t).score)  # sacrebleu returns score in [0,100]
 
 def bertscore_many(pairs: List[Tuple[str, str]]) -> List[float]:
     """

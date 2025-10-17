@@ -237,7 +237,7 @@ def maybe_generate(prompts_path: str) -> str:
     # Always (re)generate for this initial test to keep it honest
     return run_generation(prompts_path)
 
-def run_reference(outputs_path: str, refs_path: str, primary="rouge", do_bertscore=False, do_bleu=False) -> Dict[str, Any]:
+def run_reference(outputs_path: str, refs_path: str, primary="rouge", do_bertscore=True, do_bleu=True) -> Dict[str, Any]:
     _ , summary = evaluate_reference(outputs_path, refs_path, primary, do_bertscore=do_bertscore, do_bleu=do_bleu)
     print("\n[REFERENCE] metrics_summary.json:")
     print(json.dumps(summary, indent=2))
@@ -327,8 +327,8 @@ def main():
     ap = argparse.ArgumentParser(description="Initial test for TrustBench core metrics (10 examples).")
     ap.add_argument("--subset", type=int, default=10, help="Subset size (default 10)")
     ap.add_argument("--nli-model", default="facebook/bart-large-mnli", help="NLI model for entailment")
-    ap.add_argument("--bertscore", action="store_true", help="Also compute BERTScore in reference metrics")
-    ap.add_argument("--bleu", action="store_true", help="Compute corpus BLEU")
+    ap.add_argument("--no_bertscore", action="store_false", help="Also compute BERTScore in reference metrics")
+    ap.add_argument("--no_bleu", action="store_false", help="Compute corpus BLEU")
     args = ap.parse_args()
 
     ensure_dirs()
@@ -340,7 +340,7 @@ def main():
     outputs_path = maybe_generate(prompts_path)
 
     # 3) Reference-based metrics
-    ref_sum = run_reference(outputs_path, refs_path, primary="rouge", do_bertscore=args.bertscore, do_bleu=args.bleu)
+    ref_sum = run_reference(outputs_path, refs_path, primary="rouge", do_bertscore=args.no_bertscore, do_bleu=args.no_bleu)
 
     # 4) Factual consistency (n-gram + NLI entailment)
     fact_sum = run_factual(outputs_path, refs_path, nli_model=args.nli_model)
