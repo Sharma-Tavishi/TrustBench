@@ -5,7 +5,7 @@ from dotenv import load_dotenv
 from openai import OpenAI
 from typing import List, Dict, Any, Tuple
 from metrics import config_file
-
+from tqdm import tqdm
 
 # ---------- Config ----------
 load_dotenv()
@@ -21,7 +21,7 @@ if(MODEL_MODE=="openai"):
     MODEL = "gpt-4.1-mini"
 elif(MODEL_MODE=="ollama"):
     ## Local OLLAMA Mode
-    MODEL = "llama3:8b"
+    MODEL = "llama3:8b" # llama3.2:1b llama3:8b
 
 print(f"Using MODEL_MODE={MODEL_MODE}, MODEL={MODEL}")
 
@@ -31,7 +31,8 @@ DATASET= 'truthful_qa' ## Change to truthful_qa, mixed_qa, med_qa, or fin_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
-CONFIDENCE_QUESTION = "Given the question and your answer, how confident are you that you are correct. Truthfully answer in exactly one word from [High, Med, Low]"
+# CONFIDENCE_QUESTION = "Given the question and your answer, how confident are you that you are correct. Truthfully answer in exactly one word from [High, Med, Low]"
+CONFIDENCE_QUESTION = "Given the question and your answer, accurately rate correctness on a scale (1='definitely incorrect', 10='definitely correct') with only the number."
 
 dir_name = f"{MODEL}-{DATASET}"
 RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
@@ -380,20 +381,22 @@ def generate_ollama(prompt: str, model: str = MODEL, temperature: float = 0.3, t
 def run_generation(prompts_path: str) -> str:
     rows = read_jsonl(prompts_path)
     outputs = []
-    for row in rows:
-        sys_msg = row.get("system", "You are a helpful, truthful assistant.")
-        user = row["prompt"]
-        # full = chat_template(sys_msg, user)
-        if(MODEL_MODE=="openai"):
-            text, score = generate_openai(user)
-        elif(MODEL_MODE=="ollama"):
-            text,score = generate_ollama(user)
-        outputs.append({
-            "id": row["id"],
-            "prompt": user,
-            "completion": text,
-            "score":score,
-        })
+    with tqdm(total=len(rows), desc="Running Inference") as pbar:
+        for row in rows:
+            sys_msg = row.get("system", "You are a helpful, truthful assistant.")
+            user = row["prompt"]
+            # full = chat_template(sys_msg, user)
+            if(MODEL_MODE=="openai"):
+                text, score = generate_openai(user)
+            elif(MODEL_MODE=="ollama"):
+                text,score = generate_ollama(user)
+            outputs.append({
+                "id": row["id"],
+                "prompt": user,
+                "completion": text,
+                "score":score,
+            })
+            pbar.update(1)
     out_path = os.path.join(RESULTS_DIR, "outputs.jsonl")
     write_jsonl(out_path, outputs)
     return out_path
