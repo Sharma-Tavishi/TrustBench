@@ -9,11 +9,19 @@ from metrics import config_file
 
 # ---------- Config ----------
 load_dotenv()
-if pathlib.Path("API_key.txt").exists() and not os.getenv("OPENAI_API_KEY"):
-    os.environ["OPENAI_API_KEY"] = pathlib.Path("API_key.txt").read_text().strip()
+# if pathlib.Path("API_key.env").exists() and not os.getenv("OPENAI_API_KEY"):
+#     os.environ["OPENAI_API_KEY"] = pathlib.Path("API_key.txt").read_text().strip()
 
+## GPT API Mode
 _OPENAI_CLIENT = OpenAI()  
 MODEL_OPENAI = "gpt-4.1-mini"
+
+## Local OLLAMA Mode
+MODEL_OLLAMA = "llama2"
+
+# SET MODEL EXECUTION MODE HERE
+MODEL_MODE = "openai"  ## Change to "ollama" to use local Oll
+
 DATASET= 'truthful_qa' ## Change to truthful_qa, mixed_qa, med_qa, or fin_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
@@ -90,7 +98,7 @@ def build_refs_map(refs_path: str) -> Dict[str, List[str]]:
             refs_map[r["id"]] = [r.get("reference", "")]
     return refs_map
 
-# ---------- Step 1: API integrationS ----------
+# ---------- Step 1: Checks API or local model  ----------
 def ensure_api_ready() -> bool:
     """Verifies OPENAI_API_KEY is set and we can list models."""
     key = os.getenv("OPENAI_API_KEY")
@@ -104,8 +112,22 @@ def ensure_api_ready() -> bool:
     except Exception as e:
         warn(f"Could not verify OpenAI API access: {e}")
         return False
+    
 
-
+def ensure_model_ollama(model: str = MODEL_OLLAMA) -> bool:
+    if shutil.which("ollama") is None:
+        warn("Ollama not found in PATH. Please install via Homebrew (brew install ollama).")
+        return False
+    # Try pulling model
+    os.system(f"ollama pull {model} >/dev/null 2>&1 || true")
+    # Verify existence
+    try:
+        import subprocess, re
+        out = subprocess.check_output(["ollama", "list"]).decode("utf-8")
+        return any(model in line for line in out.splitlines())
+    except Exception as e:
+        warn(f"Could not verify model via 'ollama list': {e}")
+        return False
 
 # ---------- Step 2: Download dataset (TruthfulQA) ----------
 def prepare_truthful_qa(n: int = DEFAULT_SUBSET,
@@ -299,6 +321,56 @@ def generate_openai(
 
     return answer, score
 
+def chat_template(system: str, user: str) -> str:
+    return f"<|system|>\n{system}\n<|user|>\n{user}\n<|assistant|>\n"
+
+def generate_ollama(prompt: str, model: str = MODEL_OLLAMA, temperature: float = 0.3, top_p: float = 0.9, max_tokens: int = 256, seed: int = SEED) -> str:
+    import json, urllib.request
+    req = urllib.request.Request(
+        "http://localhost:11434/api/generate",
+        data=json.dumps({
+            "model": model,
+            "prompt": prompt,
+            "temperature": temperature,
+            "top_p": top_p,
+            "max_tokens": max_tokens,
+            "seed": seed,
+            "stream": False
+        }).encode("utf-8"),
+        headers={"Content-Type": "application/json"}
+    )
+    try:
+        with urllib.request.urlopen(req, timeout=600) as resp:
+            out = json.loads(resp.read().decode("utf-8"))
+            response = out.get("response", "").strip()
+    except Exception as e:
+        die(f"Ollama HTTP call failed. Is 'ollama serve' running? Error: {e}")
+
+    confidence_prompt = f"QUESTION:\n{prompt}\nYOU RESPONSE:\n{response}\n\n{CONFIDENCE_QUESTION}"
+
+    req2 = urllib.request.Request(
+        "http://localhost:11434/api/generate",
+        data=json.dumps({
+            "model": model,
+            "prompt": confidence_prompt,
+            "temperature": temperature,
+            "top_p": top_p,
+            "max_tokens": max_tokens,
+            "seed": seed,
+            "stream": False
+        }).encode("utf-8"),
+        headers={"Content-Type": "application/json"}
+    )
+
+    try:
+        with urllib.request.urlopen(req2, timeout=600) as resp:
+            out = json.loads(resp.read().decode("utf-8"))
+            score = out.get("response", "").strip()
+    except Exception as e:
+        die(f"Ollama HTTP call failed. Is 'ollama serve' running? Error: {e}")
+
+    return prompt,score
+
 
 def run_generation(prompts_path: str) -> str:
     rows = read_jsonl(prompts_path)
@@ -307,7 +379,10 @@ def run_generation(prompts_path: str) -> str:
         sys_msg = row.get("system", "You are a helpful, truthful assistant.")
         user = row["prompt"]
         # full = chat_template(sys_msg, user)
-        text, score = generate_openai(user)
+        if(MODEL_MODE=="openai"):
+            text, score = generate_openai(user)
+        elif(MODEL_MODE=="ollama"):
+            text,score = generate_ollama(user)
         outputs.append({
             "id": row["id"],
             "prompt": user,
@@ -475,11 +550,16 @@ def main():
     generate = 0  # treated as False in conditionals
     # --- End defensive shim ---
 
-    # Step 1: ensure model
-# Step 1: ensure API
-    if not ensure_api_ready():
-        die("API not ready.")
-    info("API available: True")
+    # Step 1: ensure backend
+    if(MODEL_MODE=="openai"):
+        if not ensure_api_ready():
+            die("API not ready.")
+        info("API available: True")
+    elif(MODEL_MODE=="ollama"):
+        if not ensure_model_ollama():
+            die("Ollama not ready.")
+    else:
+        die(f"Unknown MODEL_MODE: {MODEL_MODE}")
 
     # Step 2: dataset prep
     DATA_DIR = os.path.join(DATA_BASE, args.dataset)
