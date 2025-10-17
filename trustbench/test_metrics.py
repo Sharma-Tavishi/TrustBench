@@ -238,7 +238,7 @@ def maybe_generate(prompts_path: str) -> str:
     return run_generation(prompts_path)
 
 def run_reference(outputs_path: str, refs_path: str, primary="rouge", do_bertscore=False, do_bleu=False) -> Dict[str, Any]:
-    _ , summary = evaluate_reference(outputs_path, refs_path, primary, do_bertscore=do_bertscore, do_bleu=args.bleu)
+    _ , summary = evaluate_reference(outputs_path, refs_path, primary, do_bertscore=do_bertscore, do_bleu=do_bleu)
     print("\n[REFERENCE] metrics_summary.json:")
     print(json.dumps(summary, indent=2))
     # sanity checks
