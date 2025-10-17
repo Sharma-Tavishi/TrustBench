@@ -27,3 +27,13 @@ results.zip
 
 # Ignore ENV files with sensitive information
 *.env
+*.env
+API_key.txt
+
+# ---- VSCode ----
+.vscode/
+
+# ---- Misc ----
+*.zip
+*.tar
+*.tar.gz

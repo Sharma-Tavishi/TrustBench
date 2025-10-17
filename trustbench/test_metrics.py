@@ -5,7 +5,7 @@ Initial test for core metrics on a small sample (n=10).
 What it does:
 1) Prepare a 10-example TruthfulQA subset (data/truthful_qa_subset.jsonl, data/truthful_qa_refs.jsonl)
 2) Generate model outputs via the OpenAI API (results/outputs.jsonl)
-3) Run reference-based metrics (EM/F1/ROUGE + optional BERTScore via --bertscore)
+3) Run reference-based metrics (F1/ROUGE + optional BERTScore via --bertscore)
 4) Run factual consistency (n-gram + NLI entailment; choose model with --nli-model)
 5) Inject a citation-style output row to test citation integrity; run citation checks
 6) Create a simple timeliness reference file for these ids and run timeliness
@@ -48,7 +48,8 @@ from metrics.calibration import evaluate_calibration
 from metrics.safety import score_safety
 from metrics.robustness import evaluate_robustness
 from metrics.fairness import compute_slice_metrics
-from metrics.reference import exact_match, f1_token, rouge_l_f1
+from metrics.reference import f1_token, rouge_l_f1
+from metrics.reference import evaluate_reference
 
 # --- OpenAI client for calibration helper ---
 load_dotenv()
@@ -115,7 +116,8 @@ def run_calibration(outputs_with_conf: list, refs_path: str, out_prefix: str = "
         pred = r.get("completion", "")
         conf = float(r.get("confidence", 0.5))
         golds = refs_map.get(rid, [])
-        corr = int(any(exact_match(pred, g) for g in golds))
+        # Define correctness via token-level F1 >= 0.5 (no more EM)
+        corr = int(any(f1_token(pred, g) >= 0.5 for g in golds))
         items.append({"id": rid, "completion": pred, "confidence": conf, "correct": corr})
     summary = evaluate_calibration(items, out_prefix=out_prefix)
     print("\n[CALIBRATION] calibration_summary.json:")
@@ -146,7 +148,7 @@ def run_robustness(outputs_path: str, refs_path: str):
     # Build reference map
     refs_raw = read_jsonl(refs_path)
     refs_map = { r["id"]: (r.get("references") or [r.get("reference", "")]) for r in refs_raw }
-    # Create pairs: for first 3, add a token to break EM; for others keep same
+    # Create pairs: for first 3, add a token to degrade lexical overlap; others unchanged
     pairs = []
     for idx, r in enumerate(outs):
         rid = r["id"]
@@ -168,7 +170,7 @@ def run_fairness(detail_path: str):
         print("Fairness skipped (missing results/metrics_detail.jsonl). Run reference metrics first.")
         return None
     detail = read_jsonl(detail_path)
-    # Expect rows like {id, em, f1, rouge_l}
+    # Expect rows like {id, f1, rouge_l}
     ids = [d["id"] for d in detail]
     slice_a = [i for i in ids if i[-1] in "02468"]
     slice_b = [i for i in ids if i[-1] in "13579"]
@@ -191,13 +193,13 @@ def maybe_generate(prompts_path: str) -> str:
     # Always (re)generate for this initial test to keep it honest
     return run_generation(prompts_path)
 
-def run_reference(outputs_path: str, refs_path: str, primary="rouge", do_bertscore=False) -> Dict[str, Any]:
-    spath, summary = evaluate_reference(outputs_path, refs_path, primary, do_bertscore=do_bertscore)
+def run_reference(outputs_path: str, refs_path: str, primary="rouge", do_bertscore=False, do_bleu=False) -> Dict[str, Any]:
+    spath, summary = evaluate_reference(outputs_path, refs_path, primary, do_bertscore=do_bertscore, do_bleu=args.bleu)
     print("\n[REFERENCE] metrics_summary.json:")
     print(json.dumps(summary, indent=2))
     # sanity checks
     assert "aggregate" in summary and isinstance(summary["aggregate"], dict), "Missing aggregate in reference summary"
-    for k in ["em","f1","rouge_l"]:
+    for k in ["f1","rouge_l"]:
         assert k in summary["aggregate"], f"Missing {k} in reference aggregates"
         v = summary["aggregate"][k]
         assert 0.0 <= v <= 1.0, f"{k} out of range [0,1]: {v}"
@@ -267,7 +269,7 @@ def build_simple_time_refs(refs_path: str) -> Dict[str, List[Dict[str, Any]]]:
 
 def run_timeliness(outputs_path: str, time_refs: Dict[str, List[Dict[str, Any]]], ref_date: str):
     outs = read_jsonl(outputs_path)
-    items = [{"id": r["id"], "completion": r.get("completion","")} for r in outs if r.get("id","").startswith("truth-")]
+    items = [{"id": r["id"], "completion": r.get("completion"," ")} for r in outs]
     res = evaluate_time_aware(items, time_refs, ref_date=ref_date)
     print("\n[TIMELINESS] timeliness_summary.json:")
     print(json.dumps(res, indent=2))
@@ -282,6 +284,8 @@ def main():
     ap.add_argument("--subset", type=int, default=10, help="Subset size (default 10)")
     ap.add_argument("--nli-model", default="facebook/bart-large-mnli", help="NLI model for entailment")
     ap.add_argument("--bertscore", action="store_true", help="Also compute BERTScore in reference metrics")
+    ap.add_argument("--bertscore", action="store_true", help="Compute BERTScore")
+    ap.add_argument("--bleu", action="store_true", help="Compute corpus BLEU")
     args = ap.parse_args()
 
     ensure_dirs()
@@ -293,7 +297,7 @@ def main():
     outputs_path = maybe_generate(prompts_path)
 
     # 3) Reference-based metrics
-    ref_sum = run_reference(outputs_path, refs_path, primary="rouge", do_bertscore=args.bertscore)
+    ref_sum = run_reference(outputs_path, refs_path, primary="rouge", do_bertscore=args.bertscore, do_bleu=args.bleu)
 
     # 4) Factual consistency (n-gram + NLI entailment)
     fact_sum = run_factual(outputs_path, refs_path, nli_model=args.nli_model)
@@ -349,3 +353,4 @@ def main():
 
 if __name__ == "__main__":
     main()
+ 

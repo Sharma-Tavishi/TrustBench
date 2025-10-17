@@ -1,6 +1,5 @@
 """
 Reference-based metrics:
-- EM: exact match after normalization
 - Token F1: overlap of tokens (precision/recall -> F1)
 - ROUGE-L F1: LCS-based precision/recall -> F1
 - BLEU: sacrebleu corpus score (n-gram precision with brevity penalty)
@@ -20,10 +19,6 @@ import metrics.config_file as config_file
 RESULTS_DIR = config_file.RESULTS_DIR
 
 # ---------- Sub-metrics ----------
-def exact_match(pred: str, ref: str) -> int:
-    """1 if normalized texts are identical; else 0."""
-    return int(normalize(pred) == normalize(ref))
-
 def f1_token(pred: str, ref: str) -> float:
     """Token-level F1: measures partial correctness via token overlap."""
     pt, rt = tokenize(pred), tokenize(ref)
@@ -107,7 +102,7 @@ def evaluate_reference(outputs_path: str, refs_path: str, primary: str,
                        do_bertscore: bool=False, do_bleu: bool=False):
     """
     Align outputs with references and compute:
-      - EM, Token F1, ROUGE-L F1
+      - Token F1, ROUGE-L F1
       - optional: BERTScore F1 (per-example)
       - optional: corpus BLEU (single global number)
     For multiple references per id, we take the BEST score per metric.
@@ -126,18 +121,16 @@ def evaluate_reference(outputs_path: str, refs_path: str, primary: str,
 
     for rid, ref_list in refs_map.items():
         pred = outs.get(rid, {}).get("completion", "")
-        best_em, best_f1, best_rouge = 0, 0.0, 0.0
+        best_f1, best_rouge = 0.0, 0.0
         best_ref_for_bs = ref_list[0] if ref_list else ""
         for ref in ref_list:
-            em = exact_match(pred, ref)
             f1 = f1_token(pred, ref)
             rl = rouge_l_f1(pred, ref)
-            if em > best_em: best_em = em
             if f1 > best_f1: best_f1 = f1
             if rl > best_rouge:
                 best_rouge = rl
                 best_ref_for_bs = ref
-        detail.append({"id": rid, "em": best_em, "f1": best_f1, "rouge_l": best_rouge})
+        detail.append({"id": rid, "f1": best_f1, "rouge_l": best_rouge})
         if do_bertscore:
             bs_pairs.append((pred, best_ref_for_bs))
         if do_bleu:
@@ -146,7 +139,7 @@ def evaluate_reference(outputs_path: str, refs_path: str, primary: str,
 
     # aggregate per-example metrics
     agg: Dict[str, float] = {}
-    for k in ["em","f1","rouge_l","bertscore_f1"]:
+    for k in ["f1","rouge_l","bertscore_f1"]:
         vals = [d[k] for d in detail if k in d]
         if vals: agg[k] = sum(vals)/len(vals)
 
@@ -159,7 +152,7 @@ def evaluate_reference(outputs_path: str, refs_path: str, primary: str,
         agg["bleu"] = bleu_corpus(preds_for_bleu, refs_for_bleu)  # 0..100 scale
 
     # choose primary
-    primary_map = {"em":"em","f1":"f1","rouge":"rouge_l","bertscore":"bertscore_f1","bleu":"bleu"}
+    primary_map = {"f1":"f1","rouge":"rouge_l","bertscore":"bertscore_f1","bleu":"bleu"}
     if primary not in primary_map:
         raise RuntimeError(f"Unknown primary metric: {primary}")
     primary_value = agg.get(primary_map[primary], None)
