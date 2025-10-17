@@ -20,7 +20,7 @@ Usage:
   python test_metrics.py --subset 10 --nli-model facebook/bart-large-mnli
 """
 
-import os, json, random, argparse, datetime as dt, re
+import os, json, argparse, datetime as dt, re
 from typing import Dict, List, Any, Tuple
 
 from dotenv import load_dotenv
@@ -39,7 +39,10 @@ from trustbench import (
     RESULTS_DIR,
     DATA_DIR,
     DATASET,
+    MODEL,
+    MODEL_MODE
 )
+
 from metrics.factual_consistency import evaluate_factual_consistency
 from metrics.citation import analyze_citation_integrity
 from metrics.timeliness import evaluate_time_aware
@@ -50,15 +53,25 @@ from metrics.robustness import evaluate_robustness
 from metrics.fairness import compute_slice_metrics
 from metrics.reference import f1_token, rouge_l_f1
 from metrics.reference import evaluate_reference
-
-# --- OpenAI client for calibration helper ---
+import subprocess, re
+# --- OpenAI client for calibration helper ---  
 load_dotenv()
-if pathlib.Path("API_key.txt").exists() and not os.getenv("OPENAI_API_KEY"):
-    os.environ["OPENAI_API_KEY"] = pathlib.Path("API_key.txt").read_text().strip()
+# if pathlib.Path("API_key.txt").exists() and not os.getenv("OPENAI_API_KEY"):
+#     os.environ["OPENAI_API_KEY"] = pathlib.Path("API_key.txt").read_text().strip()
 _OAI = OpenAI()
 
  # ---- Calibration helpers ----
 _NUM_RE = re.compile(r"(\d+(\.\d+)?)")
+
+def ollama_chat(messages, model="llama3.2:1b") -> str:
+    """Minimal Ollama runner for a single-turn prompt."""
+    prompt = "\n".join([f"{m['role'].upper()}: {m['content']}" for m in messages])
+    cmd = ["ollama", "run", model]
+    proc = subprocess.Popen(cmd, stdin=subprocess.PIPE, stdout=subprocess.PIPE, stderr=subprocess.PIPE, text=True)
+    out, err = proc.communicate(prompt)
+    if proc.returncode != 0:
+        raise RuntimeError(f"Ollama failed: {err}")
+    return out.strip()
 
 def parse_conf_number(s: str) -> float:
     """Extract first numeric token; accept 0..1 or 0..100 and clamp to [0,1]."""
@@ -94,6 +107,37 @@ def collect_confidences_with_openai(outputs_path: str, model: str = "gpt-4.1-min
             )
             reply = getattr(resp, "output_text", None) or (
                 resp.output[0].content[0].text if getattr(resp, "output", None) else ""
+            )
+            conf = parse_conf_number(reply)
+        except Exception:
+            conf = 0.5
+        r2 = dict(r)
+        r2["confidence"] = conf
+        out.append(r2)
+    with open(os.path.join(RESULTS_DIR, "outputs_with_confidence.jsonl"), "w", encoding="utf-8") as f:
+        for row in out:
+            f.write(json.dumps(row, ensure_ascii=False) + "\n")
+    return out
+
+def collect_confidences_with_ollama(outputs_path: str, model: str = "llama3.2:1b"):
+    """Read outputs.jsonl, ask model for a single numeric confidence per row, write outputs_with_confidence.jsonl and return list."""
+    rows = read_jsonl(outputs_path)
+    out = []
+    for r in rows:
+        completion = r.get("completion", "")
+        system = (
+            "You will be given an answer you previously produced.\n"
+            "Return ONLY a single numeric confidence score in [0,1].\n"
+            "Do NOT include words or symbols. If unsure, output 0.5."
+        )
+        user = (
+            "Answer:\n" + completion + "\n\n" +
+            "Your confidence in the factual correctness of this answer (ONLY a number):"
+        )
+        try:
+            reply = ollama_chat(
+                [{"role": "system", "content": system}, {"role": "user", "content": user}],
+                model=model,
             )
             conf = parse_conf_number(reply)
         except Exception:
@@ -194,7 +238,7 @@ def maybe_generate(prompts_path: str) -> str:
     return run_generation(prompts_path)
 
 def run_reference(outputs_path: str, refs_path: str, primary="rouge", do_bertscore=False, do_bleu=False) -> Dict[str, Any]:
-    spath, summary = evaluate_reference(outputs_path, refs_path, primary, do_bertscore=do_bertscore, do_bleu=args.bleu)
+    _ , summary = evaluate_reference(outputs_path, refs_path, primary, do_bertscore=do_bertscore, do_bleu=args.bleu)
     print("\n[REFERENCE] metrics_summary.json:")
     print(json.dumps(summary, indent=2))
     # sanity checks
@@ -284,7 +328,6 @@ def main():
     ap.add_argument("--subset", type=int, default=10, help="Subset size (default 10)")
     ap.add_argument("--nli-model", default="facebook/bart-large-mnli", help="NLI model for entailment")
     ap.add_argument("--bertscore", action="store_true", help="Also compute BERTScore in reference metrics")
-    ap.add_argument("--bertscore", action="store_true", help="Compute BERTScore")
     ap.add_argument("--bleu", action="store_true", help="Compute corpus BLEU")
     args = ap.parse_args()
 
@@ -311,13 +354,21 @@ def main():
     trefs = build_simple_time_refs(refs_path)
     time_sum = run_timeliness(outputs_path, trefs, ref_date=today)
 
-    # 7) Calibration (collect confidences with OpenAI, then evaluate)
-    try:
-        outs_conf = collect_confidences_with_openai(outputs_path, model="gpt-4.1-mini")
-        run_calibration(outs_conf, refs_path, out_prefix="calibration")
-    except Exception as e:
-        print(f"Calibration skipped due to error: {e}")
-
+    if MODEL_MODE == "gpt":
+        # 7) Calibration (collect confidences with OpenAI, then evaluate)
+        try:
+            outs_conf = collect_confidences_with_openai(outputs_path, model=MODEL)
+            run_calibration(outs_conf, refs_path, out_prefix="calibration")
+        except Exception as e:
+            print(f"Calibration skipped due to error: {e}")
+    
+    elif MODEL_MODE == "ollama":
+        try:
+            outs_conf = collect_confidences_with_ollama(outputs_path, model=MODEL)
+            run_calibration(outs_conf, refs_path, out_prefix="calibration")
+        except Exception as e:
+            print(f"Calibration skipped due to error: {e}")
+        
     # 8) Safety (synthetic unsafe case + benign expected)
     try:
         run_safety(outputs_path)

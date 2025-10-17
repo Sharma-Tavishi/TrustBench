@@ -9,18 +9,23 @@ from metrics import config_file
 
 # ---------- Config ----------
 load_dotenv()
+
 # if pathlib.Path("API_key.env").exists() and not os.getenv("OPENAI_API_KEY"):
 #     os.environ["OPENAI_API_KEY"] = pathlib.Path("API_key.txt").read_text().strip()
 
-## GPT API Mode
-_OPENAI_CLIENT = OpenAI()  
-MODEL_OPENAI = "gpt-4.1-mini"
+MODEL_MODE = "ollama"  ## Change to "ollama" to use local Oll
 
-## Local OLLAMA Mode
-MODEL_OLLAMA = "llama2"
+if(MODEL_MODE=="openai"):
+    ## GPT API Mode
+    _OPENAI_CLIENT = OpenAI()  
+    MODEL = "gpt-4.1-mini"
+elif(MODEL_MODE=="ollama"):
+    ## Local OLLAMA Mode
+    MODEL = "llama2"
+
+print(f"Using MODEL_MODE={MODEL_MODE}, MODEL={MODEL}")
 
 # SET MODEL EXECUTION MODE HERE
-MODEL_MODE = "openai"  ## Change to "ollama" to use local Oll
 
 DATASET= 'truthful_qa' ## Change to truthful_qa, mixed_qa, med_qa, or fin_qa
 DATA_BASE = "data"
@@ -28,7 +33,7 @@ DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
 CONFIDENCE_QUESTION = "Given the question and your answer, how confident are you that you are correct. Truthfully answer in exactly one word from [High, Med, Low]"
 
-dir_name = f"{MODEL_OPENAI}-{DATASET}"
+dir_name = f"{MODEL}-{DATASET}"
 RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
 os.makedirs(DATA_BASE, exist_ok=True)
 os.makedirs(RESULTS_BASE, exist_ok=True)
@@ -114,7 +119,7 @@ def ensure_api_ready() -> bool:
         return False
     
 
-def ensure_model_ollama(model: str = MODEL_OLLAMA) -> bool:
+def ensure_model_ollama(model: str = MODEL) -> bool:
     if shutil.which("ollama") is None:
         warn("Ollama not found in PATH. Please install via Homebrew (brew install ollama).")
         return False
@@ -277,7 +282,7 @@ def chat_template(system: str, user: str) -> str:
 # ---------- OpenAI Generation  ----------
 def generate_openai(
     prompt: str,
-    model: str = MODEL_OPENAI,
+    model: str = MODEL,
     temperature: float = 0.3,
     max_tokens: int = 256,
 ):
@@ -324,7 +329,7 @@ def generate_openai(
 def chat_template(system: str, user: str) -> str:
     return f"<|system|>\n{system}\n<|user|>\n{user}\n<|assistant|>\n"
 
-def generate_ollama(prompt: str, model: str = MODEL_OLLAMA, temperature: float = 0.3, top_p: float = 0.9, max_tokens: int = 256, seed: int = SEED) -> str:
+def generate_ollama(prompt: str, model: str = MODEL, temperature: float = 0.3, top_p: float = 0.9, max_tokens: int = 256, seed: int = SEED) -> str:
     import json, urllib.request
     req = urllib.request.Request(
         "http://localhost:11434/api/generate",
