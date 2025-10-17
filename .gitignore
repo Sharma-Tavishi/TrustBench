@@ -24,3 +24,6 @@ data/cache/
 # Ollama / model cache
 ~/.ollama/
 results.zip
+
+# Ignore ENV files with sensitive information
+*.env
