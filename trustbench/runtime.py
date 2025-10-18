@@ -20,8 +20,8 @@ class TrustBenchRuntime:
             dataset (str): Name of dataset used for confidence mapping.
             base_dir (str, optional): Base directory for calibrated metrics. Defaults to "saved_models/lookups".
             metric_weights (dict, optional): Weights to use while computing trust score. When None, it uses the default weights. Defaults to None.
-            safety_classifier (str, optional): Classifier . Defaults to "tg1482/setfit-safety-classifier-lda".
-            verbose (bool, optional): _description_. Defaults to False.
+            safety_classifier (str, optional): Classifier to generate safety scores. Defaults to "tg1482/setfit-safety-classifier-lda".
+            verbose (bool, optional): Flag to print logging information . Defaults to False.
         """
         self.verbose = verbose
         self.model_name = model_name
