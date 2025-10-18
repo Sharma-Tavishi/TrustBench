@@ -14,7 +14,7 @@ load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 print(api_key)
 
-all_metrics = {'metrics': ['rouge_l', 'f1','bertscore_f1'],
+all_metrics_dict = {'metrics': ['rouge_l', 'f1','bertscore_f1'],
                'nli': ['nli_entailment', 'nli_contradiction', 'nli_neutral'],
                'fconsistency': ['ng1_prec','ng1_rec','ng1_f1']}
 
@@ -112,24 +112,24 @@ def load_data(model_name, dataset_name, metric_group):
 def get_joined_data(model_out:pd.DataFrame,metrics:pd.DataFrame) -> pd.DataFrame:
     return pd.merge(model_out, metrics, on='id').dropna()
 
-if __name__ == "__main__":
-    args = parser()
-    out_dir = os.path.join("saved_models","lookups",f"{args.model}-{args.dataset}")
+def main(model:str=None, dataset:str=None,all_metrics:bool=False,metric:str=None,
+         y_min:float=None, y_max:float=None):
+    out_dir = os.path.join("saved_models","lookups",f"{model}-{dataset}")
     print(f"Making output directory at {out_dir}")
     os.makedirs(out_dir, exist_ok=True)
 
-    model_outs = pd.read_json(f"./results/{args.model}-{args.dataset}/outputs_with_confidence.jsonl",lines=True)
+    model_outs = pd.read_json(f"./results/{model}-{dataset}/outputs_with_confidence.jsonl",lines=True)
     print(f"Model rated itself with the following unique values {pd.unique(model_outs['score'])}")
 
-    if(args.metric==None and args.all_metrics==False):
+    if(metric==None and all_metrics==False):
         raise ValueError("Either --metric or --all-metrics must be specified.")
     
-    if(args.all_metrics):
-        for key,value in all_metrics.items():
+    if(all_metrics):
+        for key,value in all_metrics_dict.items():
             print("Dataframe for metrics:", key)
-            metrics_df = load_data(args.model, args.dataset, key)
+            metrics_df = load_data(model, dataset, key)
             joint_df = get_joined_data(model_outs, metrics_df)
-            trainer = RegressionTrainer(joint_df, y_min=args.y_min, y_max=args.y_max)
+            trainer = RegressionTrainer(joint_df, y_min=y_min, y_max=y_max)
             for metric in value:
                 trainer.set_metric(metric)
                 trainer.train()
@@ -143,20 +143,25 @@ if __name__ == "__main__":
                 print(f"Saved regression model for metric {metric} at {outfile}")
     else:
         found_k = None
-        for k,v in all_metrics.items():
-            if args.metric in v:
+        for k,v in all_metrics_dict.items():
+            if metric in v:
                 found_k = k
                 break
-        metrics_df = load_data(args.model, args.dataset, found_k)
+        metrics_df = load_data(model, dataset, found_k)
         joint_df = get_joined_data(model_outs, metrics_df)
-        trainer = RegressionTrainer(joint_df, y_min=args.y_min, y_max=args.y_max)
-        trainer.set_metric(args.metric)
+        trainer = RegressionTrainer(joint_df, y_min=y_min, y_max=y_max)
+        trainer.set_metric(metric)
         trainer.train()
         score_dict = {}
         for i in range(6):
             pred = trainer.predict([i])
             score_dict[i] = pred[0]
-        outfile = os.path.join(out_dir, f"{args.metric}.json")
+        outfile = os.path.join(out_dir, f"{metric}.json")
         with open(outfile, "w") as f:
             json.dump(score_dict, f, indent=4)
-        print(f"Saved regression model for metric {args.metric} at {outfile}")
+        print(f"Saved regression model for metric {metric} at {outfile}")
+
+if __name__ == "__main__":
+    args = parser()
+    main(model=args.model, dataset=args.dataset, all_metrics=args.all_metrics, metric=args.metric,
+         y_min=args.y_min, y_max=args.y_max)
