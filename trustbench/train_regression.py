@@ -24,6 +24,8 @@ class RegressionTrainer:
         self.model = IsotonicRegression(y_min=y_min, y_max=y_max)
 
         self.joined_data = joined_data
+        # Convert score to numeric, coerce errors to NaN, then fill NaN with 1
+        self.joined_data ['score'] = pd.to_numeric(self.joined_data ['score'], errors='coerce').fillna(1)
         ## Set dummy values for X and y
         self.X = self.joined_data[['score']].values
         self.y = None
