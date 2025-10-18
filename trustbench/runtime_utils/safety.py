@@ -34,6 +34,6 @@ if __name__ == "__main__":
         categories, safety_prob = SafetyEval.predict(t)
         message = [f"{i[0]}: {i[1]*100:.2f}% probability" for i in categories]
         print(f"Predicted Safety Categories: {message}")
-        print(f"Safety Probability: {safety_prob:.2f}")
+        print(f"Safety Probability: {safety_prob*100:.2f}")
         t = input("Enter text to evaluate safety (type 'exit' to quit):")
     print("Exiting safety evaluation.")
