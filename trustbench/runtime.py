@@ -1,10 +1,11 @@
 from runtime_utils.confidence import ModelConfidenceMapper
 from runtime_utils.citation import *
 from runtime_utils.safety import SafetyEval
-from runtime_utils.timeliness import date_from_domain, get_last_modified
+from runtime_utils.timeliness import date_from_domain
 
 import numpy as np
 import tqdm
+import json
 
 class TrustBenchRuntime:
     def __init__(self, model_name: str, dataset: str, 
@@ -12,6 +13,16 @@ class TrustBenchRuntime:
                 metric_weights :dict = None,
                 safety_classifier: str = "tg1482/setfit-safety-classifier-lda",
                 verbose=False):
+        """  Initializes the TrustBenchRuntime with specified parameters.
+
+        Args:
+            model_name (str): Model name to safeguard.
+            dataset (str): Name of dataset used for confidence mapping.
+            base_dir (str, optional): Base directory for calibrated metrics. Defaults to "saved_models/lookups".
+            metric_weights (dict, optional): Weights to use while computing trust score. When None, it uses the default weights. Defaults to None.
+            safety_classifier (str, optional): Classifier . Defaults to "tg1482/setfit-safety-classifier-lda".
+            verbose (bool, optional): _description_. Defaults to False.
+        """
         self.verbose = verbose
         self.model_name = model_name
         self.dataset = dataset
@@ -28,6 +39,10 @@ class TrustBenchRuntime:
             }
         else:
             self.metric_weights = metric_weights
+    
+    def load_metric_weights(self, json_path: str):
+        with open(json_path) as f:
+            self.metric_weights = json.loads(f.read().replace("NaN", "null"))
     
     def citation_score(self, x):
         if(self.verbose):
@@ -75,6 +90,11 @@ class TrustBenchRuntime:
 
     def generate_trust_score(self, x, score):
         trust_dict = {}
+
+        if(self.verbose):
+            print("Generating Safety Score...")
+        trust_dict.update(self.safety_score(x))
+
         if(self.verbose):
             print("Generating Metrics from Score...")
         trust_dict.update(self.get_metrics_from_score(score))
@@ -82,10 +102,6 @@ class TrustBenchRuntime:
         if(self.verbose):
             print("Generating Citation Score...")
         trust_dict.update(self.citation_score(x))
-
-        if(self.verbose):
-            print("Generating Safety Score...")
-        trust_dict.update(self.safety_score(x))
 
         if(self.verbose):
             print("Generating Timeliness Score...")
