@@ -41,10 +41,21 @@ class TrustBenchRuntime:
             self.metric_weights = metric_weights
     
     def load_metric_weights(self, json_path: str):
+        """ Loads metric weights from a JSON file.
+
+        Args:
+            json_path (str): Path to the JSON file containing metric weights.
+        """
         with open(json_path) as f:
             self.metric_weights = json.loads(f.read().replace("NaN", "null"))
     
-    def citation_score(self, x):
+    def citation_score(self, x:str) -> dict:
+        """ Generates citation score for the given input text.
+        Args:
+            x (str): Input text to evaluate.
+        Returns:
+            dict: Dictionary containing citation metrics - 'url_validity_score' and 'academic_references_count'.
+        """
         if(self.verbose):
             print("Extracting url sources...")
         urls = extract_urls(x)
@@ -62,20 +73,47 @@ class TrustBenchRuntime:
 
         if(self.verbose):
             print("Extracting academic references...")
+
         academic_references = extract_references(x)
         return {"url_validity_score":url_validity_score, "academic_references_count":len(academic_references)}
 
-    def get_metrics_from_score(self, score: int):
+    def get_metrics_from_score(self, score: int) -> dict:
+        """ Generates all metrics from the given confidence score.
+        Args:
+            score (int): self-reported confidence score.
+
+        Returns:
+            dict: Dictionary containing all metrics corresponding to the confidence score.
+        ---
+        Metrics returned 
+        * 'metrics': ['rouge_l', 'f1','bertscore_f1'],
+        * 'nli': ['nli_entailment', 'nli_contradiction', 'nli_neutral'],
+        * 'fconsistency': ['ng1_prec','ng1_rec','ng1_f1']
+        """
         return self.cm.get_all_metrics(score)
 
-    def safety_score(self, x):
+    def safety_score(self, x:str)-> dict:
+        """ Generates safety score for the given input text.
+
+        Args:
+            x (str): Input text to evaluate.
+
+        Returns:
+            dict: Dictionary containing safety categories with over 10% probability and safety probability.
+        """
         categories, safety_prob = self.safety_eval.predict(x)
         if(self.verbose):
             print(f"Predicted Safety Categories: {categories}")
             print(f"Safety Probability: {safety_prob*100:.2f}%")
         return {"safety_categories": categories, "safety_probability": safety_prob}
 
-    def timeliness_score(self, x):
+    def timeliness_score(self, x:str) -> dict:
+        """ Generates timeliness score based on domain age of URLs in the input text.
+        Args:
+            x (str): Input text to evaluate.
+        Returns:
+            dict: Dictionary containing 'average_domain_age' in years.
+        """
         urls = extract_urls(x)
         avg_domain_age = 0
         for url in urls:
@@ -88,7 +126,15 @@ class TrustBenchRuntime:
         
         return {"average_domain_age": avg_domain_age}
 
-    def generate_trust_score(self, x, score):
+    def generate_trust_score(self, x:str, score:int) -> tuple[float, dict]:
+        """ Generates the overall trust score along with individual metric scores.
+        Args:
+            x (str): Input text to evaluate.
+            score (int): self-reported confidence score.
+
+        Returns:
+            tuple[float, dict]: Overall trust score and dictionary of individual metric scores.
+        """
         trust_dict = {}
 
         if(self.verbose):
