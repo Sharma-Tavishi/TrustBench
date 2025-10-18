@@ -4,7 +4,7 @@ Initial test for core metrics on a small sample (n=10).
 
 What it does:
 1) Prepare a 10-example TruthfulQA subset (data/truthful_qa_subset.jsonl, data/truthful_qa_refs.jsonl)
-2) Generate model outputs via the OpenAI API (results/outputs.jsonl)
+2) Generate model outputs via the OpenAI API (results/outputs_with_confidence.jsonl)
 3) Run reference-based metrics (F1/ROUGE + optional BERTScore via --bertscore)
 4) Run factual consistency (n-gram + NLI entailment; choose model with --nli-model)
 6) Create a simple timeliness reference file for these ids and run timeliness
@@ -80,7 +80,7 @@ def parse_conf_number(s: str) -> float:
     return max(0.0, min(1.0, v))
 
 # def collect_confidences_with_openai(outputs_path: str, model: str = "gpt-4.1-mini"):
-#     """Read outputs.jsonl, ask model for a single numeric confidence per row, write outputs_with_confidence.jsonl and return list."""
+#     """Read outputs_with_confidence.jsonl, ask model for a single numeric confidence per row, write outputs_with_confidence.jsonl and return list."""
 #     rows = read_jsonl(outputs_path)
 #     out = []
 #     for r in rows:
@@ -116,7 +116,7 @@ def parse_conf_number(s: str) -> float:
 #     return out
 
 # def collect_confidences_with_ollama(outputs_path: str, model: str = "llama3.2:1b"):
-#     """Read outputs.jsonl, ask model for a single numeric confidence per row, write outputs_with_confidence.jsonl and return list."""
+#     """Read outputs_with_confidence.jsonl, ask model for a single numeric confidence per row, write outputs_with_confidence.jsonl and return list."""
 #     rows = read_jsonl(outputs_path)
 #     out = []
 #     for r in rows:

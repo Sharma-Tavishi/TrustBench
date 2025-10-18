@@ -13,7 +13,7 @@ load_dotenv()
 # if pathlib.Path("API_key.env").exists() and not os.getenv("OPENAI_API_KEY"):
 #     os.environ["OPENAI_API_KEY"] = pathlib.Path("API_key.txt").read_text().strip()
 
-MODEL_MODE = "ollama"  ## Change to "ollama" to use local Oll
+MODEL_MODE = "openai"  ## Change to "ollama" to use local Oll
 
 if(MODEL_MODE=="openai"):
     ## GPT API Mode
@@ -21,7 +21,7 @@ if(MODEL_MODE=="openai"):
     MODEL = "gpt-4.1-mini"
 elif(MODEL_MODE=="ollama"):
     ## Local OLLAMA Mode
-    MODEL = "llama3:8b" # llama3.2:1b llama3:8b
+    MODEL = "llama3.2:1b" # llama3.2:1b llama3:8b
 
 print(f"Using MODEL_MODE={MODEL_MODE}, MODEL={MODEL}")
 
@@ -397,7 +397,7 @@ def run_generation(prompts_path: str) -> str:
                 "score":score,
             })
             pbar.update(1)
-    out_path = os.path.join(RESULTS_DIR, "outputs.jsonl")
+    out_path = os.path.join(RESULTS_DIR, "outputs_with_confidence.jsonl")
     write_jsonl(out_path, outputs)
     return out_path
 
@@ -531,7 +531,7 @@ def main():
     ap.add_argument("--dataset", choices=["truthful_qa","mixed_qa"], default="mixed_qa")
     ap.add_argument("--subset", type=int, default=DEFAULT_SUBSET, help="Subset size for TruthfulQA")
     ap.add_argument("--metric", choices=["ask","em","f1","rouge","bertscore"], default="ask")
-    ap.add_argument("--skip-generate", dest="skip_generate", action="store_true", help="Skip generation; only score existing outputs.jsonl")
+    ap.add_argument("--skip-generate", dest="skip_generate", action="store_true", help="Skip generation; only score existing outputs_with_confidence.jsonl")
     # New: reference-based extensions
     ap.add_argument("--factual-consistency", dest="do_factual", action="store_true", help="Compute factual consistency (n-gram + NLI entailment)")
     ap.add_argument("--citation-checks", dest="do_citation", action="store_true", help="Analyze citation integrity in model outputs")
@@ -585,7 +585,7 @@ def main():
         info(f"Using existing {args.dataset} subset.")
 
     # Step 3/5: generation and evaluation
-    outputs_path = os.path.join(RESULTS_DIR, "outputs.jsonl")
+    outputs_path = os.path.join(RESULTS_DIR, "outputs_with_confidence.jsonl")
     should_skip = bool(getattr(args, "skip_generate", False))
     if (not should_skip) or (not os.path.exists(outputs_path)):
         info("Running generation ...")
