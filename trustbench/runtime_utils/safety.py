@@ -16,7 +16,8 @@ class SafetyEval:
             all_probs (bool, optional): If true returns probabilities for every category. Defaults to False.
 
         Returns:
-            list: _description_
+            list: List of tuples containing category labels and their probabilities.
+            float: Safety probability.
         """
         logits = self.model.predict_proba(text)
         labels = np.where(logits >= 0.1)[0] #Find categories with probability >= 10%
@@ -24,14 +25,15 @@ class SafetyEval:
         if all_probs:
             return {self.id2label[i]: float(logits[i]) for i in range(len(logits))}, safety_prob
         else:
-            return [self.id2label[i] for i in labels], safety_prob
+            return [(self.id2label[i], logits[i]) for i in labels], safety_prob
 
 if __name__ == "__main__":
     SafetyEval = SafetyEval()
     t = input("Enter text to evaluate safety (type 'exit' to quit):")
     while t.lower() != 'exit':
         categories, safety_prob = SafetyEval.predict(t)
-        print(f"Predicted Safety Categories: {categories}")
+        message = [f"{i[0]}: {i[1]*100:.2f}% probability" for i in categories]
+        print(f"Predicted Safety Categories: {message}")
         print(f"Safety Probability: {safety_prob:.2f}")
         t = input("Enter text to evaluate safety (type 'exit' to quit):")
     print("Exiting safety evaluation.")
