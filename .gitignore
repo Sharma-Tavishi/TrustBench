@@ -37,3 +37,6 @@ API_key.txt
 *.zip
 *.tar
 *.tar.gz
+
+# -- Jupyter Notebook checkpoints --   
+*.ipynb_checkpoints
