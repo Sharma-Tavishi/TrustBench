@@ -27,7 +27,7 @@ print(f"Using MODEL_MODE={MODEL_MODE}, MODEL={MODEL}")
 
 # SET MODEL EXECUTION MODE HERE
 
-DATASET= 'truthful_qa' ## Change to truthful_qa, mixed_qa, med_qa, or fin_qa
+DATASET= 'med_qa' ## Change to truthful_qa, mixed_qa, med_qa, or fin_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
