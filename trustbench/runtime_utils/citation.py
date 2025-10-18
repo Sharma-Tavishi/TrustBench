@@ -93,6 +93,42 @@ def verify_link(url: str, verbose=False) -> bool:
         return False
 
 
+def extract_references(text):
+    """
+    Extracts full, multi-line reference citations from a reference list.
+
+    This function is designed to parse a block of text containing a
+    numbered bibliography and extract each full reference. It identifies
+    references that start with a number (e.g., "1. ") and captures the
+    entire multi-line entry.
+
+    It specifically avoids simple inline citations like '[1]' or '(Smith, 2021)'.
+
+    Args:
+        text (str): The text containing the reference list.
+
+    Returns:
+        list: A list of all found full reference strings.
+    """
+    # Pre-process the text to strip leading whitespace from each line. This
+    # makes the main regex more robust against indented reference lists.
+    processed_text = re.sub(r'^\s+', '', text.strip(), flags=re.MULTILINE)
+
+    # This regex finds entries in a numbered list. It starts by finding a line
+    # beginning with digits and a period. It then non-greedily matches all
+    # characters (including newlines) until it sees the start of the next
+    # reference (another line starting with digits and a period) or the
+    # end of the string.
+    citation_pattern = re.compile(
+        r"^\d+\..+?(?=\n^\d+\.|\Z)",
+        re.MULTILINE | re.DOTALL
+    )
+
+    # Find all non-overlapping matches in the processed string
+    citations = citation_pattern.findall(processed_text)
+    # Strip leading/trailing whitespace from each found citation
+    return [citation.strip() for citation in citations]
+
 if __name__ == "__main__":
     sample_text = """
     Here are some links to check:
