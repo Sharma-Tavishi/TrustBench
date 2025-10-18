@@ -73,7 +73,6 @@ class TrustBenchRuntime:
         
         return {"average_domain_age": avg_domain_age}
 
-    
     def generate_trust_score(self, x, score):
         trust_dict = {}
         if(self.verbose):
