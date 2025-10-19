@@ -1,0 +1,8 @@
+{
+  "mean_delta_f1": -3.901337234670575e-05,
+  "mean_delta_rouge": -3.901337234670575e-05,
+  "attack_success_rate": 0.0,
+  "stability": 1.0,
+  "f1_correct_threshold": 0.5,
+  "n_pairs": 150
+}
