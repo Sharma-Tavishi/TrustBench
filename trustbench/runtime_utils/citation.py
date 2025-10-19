@@ -1,6 +1,7 @@
 import requests
 import re
 
+
 def extract_urls(text: str) -> list:
     """
     Extracts all URLs from a given string of text using regex.
@@ -94,6 +95,63 @@ def verify_link(url: str, verbose=False) -> bool:
 
 
 def extract_references(text):
+    """
+    Extracts full, multi-line reference citations from a reference list.
+
+    This function is designed to parse a block of text containing a
+    numbered bibliography and extract each full reference. It identifies
+    references that start with a number (e.g., "1. ") and captures the
+    entire multi-line entry.
+
+    It specifically avoids simple inline citations like '[1]' or '(Smith, 2021)'.
+
+    Args:
+        text (str): The text containing the reference list.
+
+    Returns:
+        list: A list of all found full reference strings.
+    """
+
+    citation_pattern = r'\((?P<title1>.*?),\s*(?P<date1>\d{4}),\s*(?P<venue1>.*?)\)|"(?P<title2>.*?)\.”\s*,\s*(?P<date2>\d{4}),\s*(?P<venue2>.*?)\.'
+    academic_references = []
+    for match in re.finditer(citation_pattern, text):
+        # Check which named group was populated to determine the format
+        if match.group('title1') is not None:
+            # It's the first format: (title, date, venue)
+            title = match.group('title1').strip()
+            date = match.group('date1').strip()
+            venue = match.group('venue1').strip()
+        else:
+            # It's the second format: "Title.", date, venue.
+            title = match.group('title2').strip()
+            date = match.group('date2').strip()
+            venue = match.group('venue2').strip()
+        academic_references.append({'title':title, 'date':date, 'venue':venue})
+    return academic_references
+
+class ReferenceScreener:
+    def __init__(self, whitelist: list):
+        """ Initializes the ReferenceScreener with a whitelist of allowed venues.
+
+        Args:
+            whitelist (list): List of allowed publication venues.
+        """
+        self.whitelist = whitelist
+    
+    def process_references(self, references: list):
+        if(self.whitelist is None):
+            for ref in references:
+                ref['allowed'] = True
+            return references
+        else:
+            for ref in references:
+                if ref['venue'] in self.whitelist:
+                    ref['allowed'] = True
+                else:
+                    ref['allowed'] = False
+            return references
+
+def extract_references_old(text):
     """
     Extracts full, multi-line reference citations from a reference list.
 

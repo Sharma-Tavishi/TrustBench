@@ -12,7 +12,7 @@ class TrustBenchRuntime:
                 base_dir="saved_models/lookups", 
                 metric_weights :dict = None,
                 safety_classifier: str = "tg1482/setfit-safety-classifier-lda",
-                verbose=False):
+                publication_whitelist=None, verbose=False):
         """  Initializes the TrustBenchRuntime with specified parameters.
 
         Args:
@@ -21,6 +21,7 @@ class TrustBenchRuntime:
             base_dir (str, optional): Base directory for calibrated metrics. Defaults to "saved_models/lookups".
             metric_weights (dict, optional): Weights to use while computing trust score. When None, it uses the default weights. Defaults to None.
             safety_classifier (str, optional): Classifier to generate safety scores. Defaults to "tg1482/setfit-safety-classifier-lda".
+            publication_whitelist (list, optional): List of allowed publication venues. When None, all venues are allowed. Defaults to None.
             verbose (bool, optional): Flag to print logging information . Defaults to False.
         """
         self.verbose = verbose
@@ -30,6 +31,7 @@ class TrustBenchRuntime:
         self.cm.set_model_dataset(model_name, dataset)
         self.safety_eval = SafetyEval(safety_classifier)
         self.urls = None
+        self.ref_scanner = ReferenceScreener(publication_whitelist)
 
         ## Need to update these to make it a better default
         if(metric_weights is None):
@@ -77,7 +79,13 @@ class TrustBenchRuntime:
             print("Extracting academic references...")
 
         academic_references = extract_references(x)
-        return {"url_validity_score":url_validity_score, "academic_references_count":len(academic_references)}
+        self.ref_scanner.process_references(academic_references)
+        academic_references_count = 0
+        for ref in academic_references:
+            if(ref['allowed']):
+                academic_references_count += 1
+        
+        return {"url_validity_score":url_validity_score, "academic_references_count":academic_references_count, 'urls':self.urls, 'academic_references':academic_references}
 
     def get_metrics_from_score(self, score: int) -> dict:
         """ Generates all metrics from the given confidence score.
