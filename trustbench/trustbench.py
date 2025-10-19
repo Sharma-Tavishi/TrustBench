@@ -281,6 +281,46 @@ def chat_template(system: str, user: str) -> str:
     return f"<|system|>\n{system}\n<|user|>\n{user}\n<|assistant|>\n"
 
 # ---------- OpenAI Generation  ----------
+
+def extract_score(text: str) -> int | None:
+    """
+    Extracts a numerical score from a string using regular expressions.
+
+    The function first looks for a number following a colon. If that pattern
+    isn't found, it looks for a number followed by a parenthetical clarification
+    of the rating scale (e.g., "(out of 5)" or "(best)").
+
+    Args:
+        text: The input string from which to extract the score.
+
+    Returns:
+        An integer representing the score if found, otherwise None.
+    """
+    # Pattern 1: Look for a number preceded by a colon.
+    # This is a strong indicator of a score.
+    # Example: "... on scale of 1 to 5: 5"
+    try:
+        return int(text)
+    except ValueError:
+        pass
+    match = re.search(r":\s*(\d+)", text)
+    if match:
+        # Convert the captured string of digits into an integer.
+        return int(match.group(1))
+
+    # Pattern 2: Look for a number followed by a parenthetical
+    # that clarifies the scale, like "(out of...)" or "(best)".
+    # This handles cases where a colon is not used.
+    # The `\b` ensures we match a whole number.
+    # `re.IGNORECASE` makes the pattern case-insensitive.
+    match = re.search(r"\b(\d+)\s*\((best|out of)", text, re.IGNORECASE)
+    if match:
+        # The score is the first captured group.
+        return int(match.group(1))
+
+    # Return None if no pattern was matched.
+    return 0
+
 def generate_openai(
     prompt: str,
     model: str = MODEL,
@@ -325,7 +365,7 @@ def generate_openai(
     except Exception as e:
         die(f"OpenAI API call failed (confidence): {e}")
 
-    return answer, score
+    return answer, extract_score(score)
 
 def chat_template(system: str, user: str) -> str:
     return f"<|system|>\n{system}\n<|user|>\n{user}\n<|assistant|>\n"
@@ -375,7 +415,7 @@ def generate_ollama(prompt: str, model: str = MODEL, temperature: float = 0.3, t
     except Exception as e:
         die(f"Ollama HTTP call failed. Is 'ollama serve' running? Error: {e}")
 
-    return response,score
+    return response,extract_score(score)
 
 
 def run_generation(prompts_path: str) -> str:
