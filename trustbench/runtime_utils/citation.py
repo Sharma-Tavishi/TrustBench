@@ -119,14 +119,14 @@ def extract_references(text):
         if match.group('title1') is not None:
             # It's the first format: (title, date, venue)
             title = match.group('title1').strip()
-            date = match.group('date1').strip()
+            year = match.group('date1').strip()
             venue = match.group('venue1').strip()
         else:
             # It's the second format: "Title.", date, venue.
             title = match.group('title2').strip()
-            date = match.group('date2').strip()
+            year = match.group('date2').strip()
             venue = match.group('venue2').strip()
-        academic_references.append({'title':title, 'date':date, 'venue':venue})
+        academic_references.append({'title':title, 'year':year, 'venue':venue})
     return academic_references
 
 class ReferenceScreener:
