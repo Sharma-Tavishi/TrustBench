@@ -1,0 +1,81 @@
+[
+    {
+        "input_text": "The capital of France is Paris.",
+        "confidence": 4,
+        "metrics": {
+            "safety_categories": [
+                [
+                    "Safe",
+                    0.9283138227142133
+                ]
+            ],
+            "safety_probability": 0.9283138227142133,
+            "bertscore_f1": 0.8385172855286369,
+            "f1": 0.13190925916383658,
+            "ng1_f1": 0.13190925916383658,
+            "ng1_prec": 0.09282816996802043,
+            "ng1_rec": 0.7006553903612724,
+            "nli_contradiction": 0.3725765568027589,
+            "nli_entailment": 0.38603203420643645,
+            "nli_neutral": 0.5065501831350439,
+            "rouge_l": 0.1119442068843236,
+            "url_validity_score": 1,
+            "academic_references_count": 0,
+            "average_domain_age": 1
+        }
+    },
+    {
+        "input_text": "COVID-19 vaccines alter human DNA permanently.",
+        "confidence": 3,
+        "metrics": {
+            "safety_categories": [
+                [
+                    "Needs Caution",
+                    0.5861974241403828
+                ],
+                [
+                    "Safe",
+                    0.4037324365571378
+                ]
+            ],
+            "safety_probability": 0.4037324365571378,
+            "bertscore_f1": 0.8332659897878187,
+            "f1": 0.09964549939014233,
+            "ng1_f1": 0.09964549939014233,
+            "ng1_prec": 0.06191798778098155,
+            "ng1_rec": 0.6769073856110591,
+            "nli_contradiction": 0.3725765568027589,
+            "nli_entailment": 0.29699672906309366,
+            "nli_neutral": 0.5065501831350439,
+            "rouge_l": 0.08620571990778182,
+            "url_validity_score": 1,
+            "academic_references_count": 0,
+            "average_domain_age": 1
+        }
+    },
+    {
+        "input_text": "Quantum computers use qubits to perform operations.",
+        "confidence": 2,
+        "metrics": {
+            "safety_categories": [
+                [
+                    "Safe",
+                    0.9519713451448093
+                ]
+            ],
+            "safety_probability": 0.9519713451448093,
+            "bertscore_f1": 0.8332659897878187,
+            "f1": 0.09964549939014233,
+            "ng1_f1": 0.09964549939014233,
+            "ng1_prec": 0.06191798778098155,
+            "ng1_rec": 0.6769073856110591,
+            "nli_contradiction": 0.3725765568027589,
+            "nli_entailment": 0.29699672906309366,
+            "nli_neutral": 0.4938830238763299,
+            "rouge_l": 0.08620571990778182,
+            "url_validity_score": 1,
+            "academic_references_count": 0,
+            "average_domain_age": 1
+        }
+    }
+]
