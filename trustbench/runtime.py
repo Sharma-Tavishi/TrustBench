@@ -61,7 +61,7 @@ class TrustBenchRuntime:
             print("Extracting url sources...")
         if(self.urls== None):
             self.urls = extract_urls(x)
-        verify_links = [verify_link(url) for url in self.urls ]
+        verify_links = [verify_link(url) for url in self.urls]
         url_validity_score = 0
         if(self.verbose):
             print("Verifying urls...")
