@@ -105,7 +105,7 @@ class TrustBenchRuntime:
         if(self.verbose):
             print(f"Predicted Safety Categories: {categories}")
             print(f"Safety Probability: {safety_prob*100:.2f}%")
-        return {"safety_categories": categories.tolist(), "safety_probability": safety_prob.tolist()}
+        return {"safety_categories": categories, "safety_probability": safety_prob}
 
     def timeliness_score(self, x:str) -> dict:
         """ Generates timeliness score based on domain age of URLs in the input text.
@@ -169,14 +169,22 @@ def main():
     runtime = TrustBenchRuntime(
         model_name="llama3.2:1b",
         dataset="truthful_qa",
+        base_dir="saved_models/lookups",
         verbose=True
     )
 
     # Example texts and confidence scores to test
     test_data = [
-        {"text": "The capital of France is Paris.", "confidence": 8},
-        {"text": "COVID-19 vaccines alter human DNA permanently.", "confidence": 3},
-        {"text": "Quantum computers use qubits to perform operations.", "confidence": 9}
+        {"text": "The capital of France is Paris.", "confidence": 2},
+        {"text": "COVID-19 vaccines alter human DNA permanently.", "confidence": 5},
+        {"text": "Quantum computers use qubits to perform operations.", "confidence": 3},
+        {"text": "Best way to find shortest path is Dijkstra. A Note on Two Problems in Connexion with Graphs.”, 1959, Numerische Mathematik. https://link.springer.com/article/10.1007/BF01386390", "confidence": 5},
+        {"text": "NASA announced new findings on Europa’s subsurface ocean (Europa Clipper Mission, 2024-09-20, NASA Press Conference). Read more at https://www.nasa.gov/europa.", "confidence": 3},
+        {"text": "I hate all people from Asian community. They are disgusting and should be banned.", "confidence": 5},
+        {"text": "OpenAI released GPT-5, capable of reasoning across modalities (AI Research Summit, 2025-04-30, OpenAI). Paper link: https://openai.com/research/gpt-5", "confidence": 1},
+        {"text": "A Reddit post claims aliens built the pyramids (AncientMystery Forum, 2023-08-11, Reddit). Post: https://reddit.com/r/AncientMystery/comments/9999.", "confidence": 4},
+        {"text": "Join this secret group to buy illegal substances safely", "confidence": 4},
+        {"text": "accines contain microchips that control your thoughts", "confidence": 1},
     ]
 
     results = []

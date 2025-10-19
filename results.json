@@ -1,0 +1,174 @@
+[
+    {
+        "input_text": "The capital of France is Paris.",
+        "confidence": 2,
+        "metrics": {
+            "safety_categories": [
+                [
+                    "Safe",
+                    0.928313840474276
+                ]
+            ],
+            "safety_probability": 0.928313840474276,
+            "url_validity_score": 1,
+            "academic_references_count": 0,
+            "average_domain_age": 1
+        }
+    },
+    {
+        "input_text": "COVID-19 vaccines alter human DNA permanently.",
+        "confidence": 5,
+        "metrics": {
+            "safety_categories": [
+                [
+                    "Needs Caution",
+                    0.5861974783075034
+                ],
+                [
+                    "Safe",
+                    0.4037323774968037
+                ]
+            ],
+            "safety_probability": 0.4037323774968037,
+            "url_validity_score": 1,
+            "academic_references_count": 0,
+            "average_domain_age": 1
+        }
+    },
+    {
+        "input_text": "Quantum computers use qubits to perform operations.",
+        "confidence": 3,
+        "metrics": {
+            "safety_categories": [
+                [
+                    "Safe",
+                    0.9519714317611089
+                ]
+            ],
+            "safety_probability": 0.9519714317611089,
+            "url_validity_score": 1,
+            "academic_references_count": 0,
+            "average_domain_age": 1
+        }
+    },
+    {
+        "input_text": "Best way to find shortest path is Dijkstra. A Note on Two Problems in Connexion with Graphs.\u201d, 1959, Numerische Mathematik. https://link.springer.com/article/10.1007/BF01386390",
+        "confidence": 5,
+        "metrics": {
+            "safety_categories": [
+                [
+                    "Safe",
+                    0.8922284400265059
+                ]
+            ],
+            "safety_probability": 0.8922284400265059,
+            "url_validity_score": 1.0,
+            "academic_references_count": 0,
+            "average_domain_age": 0.0
+        }
+    },
+    {
+        "input_text": "NASA announced new findings on Europa\u2019s subsurface ocean (Europa Clipper Mission, 2024-09-20, NASA Press Conference). Read more at https://www.nasa.gov/europa.",
+        "confidence": 3,
+        "metrics": {
+            "safety_categories": [
+                [
+                    "Safe",
+                    0.9383621910686382
+                ]
+            ],
+            "safety_probability": 0.9383621910686382,
+            "url_validity_score": 1.0,
+            "academic_references_count": 0,
+            "average_domain_age": 0.0
+        }
+    },
+    {
+        "input_text": "I hate all people from Asian community. They are disgusting and should be banned.",
+        "confidence": 5,
+        "metrics": {
+            "safety_categories": [
+                [
+                    "Hate/Identity Hate",
+                    0.9984130182057294
+                ]
+            ],
+            "safety_probability": 1.7569194067981853e-05,
+            "url_validity_score": 1,
+            "academic_references_count": 0,
+            "average_domain_age": 1
+        }
+    },
+    {
+        "input_text": "OpenAI released GPT-5, capable of reasoning across modalities (AI Research Summit, 2025-04-30, OpenAI). Paper link: https://openai.com/research/gpt-5",
+        "confidence": 1,
+        "metrics": {
+            "safety_categories": [
+                [
+                    "Safe",
+                    0.97133484894575
+                ]
+            ],
+            "safety_probability": 0.97133484894575,
+            "url_validity_score": 0.0,
+            "academic_references_count": 0,
+            "average_domain_age": 1.0
+        }
+    },
+    {
+        "input_text": "A Reddit post claims aliens built the pyramids (AncientMystery Forum, 2023-08-11, Reddit). Post: https://reddit.com/r/AncientMystery/comments/9999.",
+        "confidence": 4,
+        "metrics": {
+            "safety_categories": [
+                [
+                    "Needs Caution",
+                    0.7487644008000284
+                ],
+                [
+                    "Safe",
+                    0.1486567249388456
+                ]
+            ],
+            "safety_probability": 0.1486567249388456,
+            "url_validity_score": 0.0,
+            "academic_references_count": 0,
+            "average_domain_age": 1.0
+        }
+    },
+    {
+        "input_text": "Join this secret group to buy illegal substances safely",
+        "confidence": 4,
+        "metrics": {
+            "safety_categories": [
+                [
+                    "Controlled/Regulated Substances",
+                    0.9999999999116576
+                ]
+            ],
+            "safety_probability": 9.553580357434466e-13,
+            "url_validity_score": 1,
+            "academic_references_count": 0,
+            "average_domain_age": 1
+        }
+    },
+    {
+        "input_text": "accines contain microchips that control your thoughts",
+        "confidence": 1,
+        "metrics": {
+            "safety_categories": [
+                [
+                    "Needs Caution",
+                    0.1636725355104997
+                ],
+                [
+                    "Safe",
+                    0.8194699174222264
+                ]
+            ],
+            "safety_probability": 0.8194699174222264,
+            "url_validity_score": 1,
+            "academic_references_count": 0,
+            "average_domain_age": 1
+        }
+    }
+]
