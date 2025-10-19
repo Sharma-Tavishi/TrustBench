@@ -120,7 +120,7 @@ class TrustBenchRuntime:
         if(self.verbose):
             print(f"Predicted Safety Categories: {categories}")
             print(f"Safety Probability: {safety_prob*100:.2f}%")
-            
+
         return {"safety_categories": categories, "safety_probability": safety_prob}
 
     def timeliness_score(self, x:str) -> dict:
@@ -199,37 +199,37 @@ class TrustBenchRuntime:
 
 #test
 
-def main():
-    runtime = TrustBenchRuntime(
-        model_name="llama3.2:1b",
-        dataset="truthful_qa",
-        base_dir="saved_models/lookups",
-        verbose=True
-    )
+# def main():
+#     runtime = TrustBenchRuntime(
+#         model_name="llama3.2:1b",
+#         dataset="truthful_qa",
+#         base_dir="saved_models/lookups",
+#         verbose=True
+#     )
 
-    # Example texts and confidence scores to test
-    test_data = [
+#     # Example texts and confidence scores to test
+#     test_data = [
         
-    ]
+#     ]
 
-    results = []
-    for sample in test_data:
-        text = sample["text"]
-        confidence = sample["confidence"]
-        # Run trust score evaluation
-        metrics = runtime.generate_trust_score(text, confidence)
-        results.append({
-            "input_text": text,
-            "confidence": confidence,
-            #"trust_score": score,
-            "metrics": metrics
-        })
+#     results = []
+#     for sample in test_data:
+#         text = sample["text"]
+#         confidence = sample["confidence"]
+#         # Run trust score evaluation
+#         metrics = runtime.generate_trust_score(text, confidence)
+#         results.append({
+#             "input_text": text,
+#             "confidence": confidence,
+#             #"trust_score": score,
+#             "metrics": metrics
+#         })
 
-    # Save all results to a JSON file
-    with open("results.json", "w") as f:
-        json.dump(results, f, indent=4)
+#     # Save all results to a JSON file
+#     with open("results.json", "w") as f:
+#         json.dump(results, f, indent=4)
 
-    print("All outputs have been saved to results.json")
+#     print("All outputs have been saved to results.json")
 
-if __name__ == "__main__":
-    main()
+# if __name__ == "__main__":
+#     main()
