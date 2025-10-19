@@ -29,6 +29,7 @@ class TrustBenchRuntime:
         self.cm = ModelConfidenceMapper(base_dir)
         self.cm.set_model_dataset(model_name, dataset)
         self.safety_eval = SafetyEval(safety_classifier)
+        self.urls = None
 
         ## Need to update these to make it a better default
         if(metric_weights is None):
@@ -58,18 +59,19 @@ class TrustBenchRuntime:
         """
         if(self.verbose):
             print("Extracting url sources...")
-        urls = extract_urls(x)
-        verify_links = [verify_link(url) for url in urls]
+        if(self.urls== None):
+            self.urls = extract_urls(x)
+        verify_links = [verify_link(url) for url in self.urls ]
         url_validity_score = 0
         if(self.verbose):
             print("Verifying urls...")
-            for i in tqdm.tqdm(range(len(urls))):
+            for i in tqdm.tqdm(range(len(self.urls ))):
                 url_validity_score += int(verify_links[i])
         else:
-            for i in range(len(urls)):
+            for i in range(len(self.urls )):
                 url_validity_score += int(verify_links[i])
         
-        url_validity_score = url_validity_score / len(urls) if len(urls) > 0 else 1 
+        url_validity_score = url_validity_score / len(self.urls ) if len(self.urls ) > 0 else 1 
 
         if(self.verbose):
             print("Extracting academic references...")
@@ -114,13 +116,14 @@ class TrustBenchRuntime:
         Returns:
             dict: Dictionary containing 'average_domain_age' in years.
         """
-        urls = extract_urls(x)
+        if(self.urls== None):
+            self.urls = extract_urls(x)
         avg_domain_age = 0
-        for url in urls:
-            domain_age = date_from_domain(url, verbose=self.verbose)
+        for url in self.urls :
+            domain_age = date_from_domain(self.urls , verbose=self.verbose)
             avg_domain_age += domain_age if domain_age is not None else 0
 
-        avg_domain_age = avg_domain_age / len(urls) if len(urls) > 0 else 1
+        avg_domain_age = avg_domain_age / len(self.urls ) if len(self.urls ) > 0 else 1
         if(self.verbose):
             print(f"Average Domain Age Since Last Updated: {avg_domain_age} years")
         
@@ -136,6 +139,7 @@ class TrustBenchRuntime:
             tuple[float, dict]: Overall trust score and dictionary of individual metric scores.
         """
         trust_dict = {}
+        self.urls = None
 
         if(self.verbose):
             print("Generating Safety Score...")
