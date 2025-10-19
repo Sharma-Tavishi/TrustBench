@@ -105,7 +105,7 @@ class TrustBenchRuntime:
         if(self.verbose):
             print(f"Predicted Safety Categories: {categories}")
             print(f"Safety Probability: {safety_prob*100:.2f}%")
-        return {"safety_categories": categories, "safety_probability": safety_prob}
+        return {"safety_categories": categories.tolist(), "safety_probability": safety_prob.tolist()}
 
     def timeliness_score(self, x:str) -> dict:
         """ Generates timeliness score based on domain age of URLs in the input text.

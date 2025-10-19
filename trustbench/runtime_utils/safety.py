@@ -23,9 +23,9 @@ class SafetyEval:
         labels = np.where(logits >= 0.1)[0] #Find categories with probability >= 10%
         safety_prob = logits[10]
         if all_probs:
-            return {self.id2label[i]: float(logits[i]) for i in range(len(logits))}, safety_prob
+            return {self.id2label[i]: logits[i].tolist() for i in range(len(logits))}, safety_prob.tolist()
         else:
-            return [(self.id2label[i], logits[i]) for i in labels], safety_prob
+            return [(self.id2label[i], logits[i].tolist()) for i in labels], safety_prob.tolist()
 
 if __name__ == "__main__":
     SafetyEval = SafetyEval()
