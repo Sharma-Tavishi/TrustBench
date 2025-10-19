@@ -53,7 +53,7 @@ def verify_link(url: str, verbose=False) -> bool:
         # Make a HEAD request to the URL.
         # allow_redirects=True ensures that we follow any redirects.
         # A timeout is set to prevent the script from hanging indefinitely.
-        response = requests.head(url, headers=headers, allow_redirects=True, timeout=10)
+        response = requests.head(url, headers=headers, allow_redirects=True, timeout=3)
 
         # Check the HTTP status code. Codes below 400 (e.g., 200 OK, 301 Redirect)
         # typically indicate that the link is valid and reachable.
