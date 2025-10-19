@@ -63,7 +63,7 @@ class TrustBenchRuntime:
         url_validity_score = 0
         if(self.verbose):
             print("Verifying urls...")
-            for i in tqdm(range(len(urls))):
+            for i in tqdm.tqdm(range(len(urls))):
                 url_validity_score += int(verify_links[i])
         else:
             for i in range(len(urls)):
@@ -151,11 +151,53 @@ class TrustBenchRuntime:
 
         if(self.verbose):
             print("Generating Timeliness Score...")
-        trust_dict.update(self.timeliness_score(x, verbose=self.verbose))
+        trust_dict.update(self.timeliness_score(x)) #removed verbose
+
 
         # Weighted Trust Score Calculation
-        trust_score = 0
-        for k,v in self.metric_weights.items():
-            trust_score += v * trust_dict[k]
+        # trust_score = 0
+        # for k,v in self.metric_weights.items():
+        #     trust_score += v * trust_dict[k]
         
-        return trust_score, trust_dict
+        # return trust_score, trust_dict
+        return trust_dict
+
+
+#test
+
+def main():
+    runtime = TrustBenchRuntime(
+        model_name="llama3.2:1b",
+        dataset="truthful_qa",
+        base_dir="savedmodels/lookups",
+        verbose=True
+    )
+
+    # Example texts and confidence scores to test
+    test_data = [
+        {"text": "The capital of France is Paris.", "confidence": 8},
+        {"text": "COVID-19 vaccines alter human DNA permanently.", "confidence": 3},
+        {"text": "Quantum computers use qubits to perform operations.", "confidence": 9}
+    ]
+
+    results = []
+    for sample in test_data:
+        text = sample["text"]
+        confidence = sample["confidence"]
+        # Run trust score evaluation
+        metrics = runtime.generate_trust_score(text, confidence)
+        results.append({
+            "input_text": text,
+            "confidence": confidence,
+            #"trust_score": score,
+            "metrics": metrics
+        })
+
+    # Save all results to a JSON file
+    with open("results.json", "w") as f:
+        json.dump(results, f, indent=4)
+
+    print("All outputs have been saved to results.json")
+
+if __name__ == "__main__":
+    main()
