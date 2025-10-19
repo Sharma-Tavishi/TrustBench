@@ -9,7 +9,6 @@ __pycache__/
 venv/
 
 # Results & caches
-results/
 data/cache/
 *.pt
 *.safetensors
