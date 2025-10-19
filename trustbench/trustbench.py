@@ -319,7 +319,7 @@ def extract_score(text: str) -> int | None:
         return int(match.group(1))
 
     # Return None if no pattern was matched.
-    return 0
+    return 1
 
 def generate_openai(
     prompt: str,
