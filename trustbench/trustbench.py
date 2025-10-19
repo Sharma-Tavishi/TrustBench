@@ -34,7 +34,7 @@ RESULTS_BASE = "results"
 # CONFIDENCE_QUESTION = "Rate confidence in correctness of your answer in **exactly one word** from [Perfect, High, Med, Low, None] without any explanation."
 # CONFIDENCE_QUESTION = "Only reply with a single number. Given the question and your answer, rate correctness on a scale (1=worst, 5=best)."
 CONFIDENCE_QUESTION = 'Rate confidence in correctness on scale of 1 to 5 (1=worst, 5=best). Answer must be a single number without an explanation'
-dir_name = f"{MODEL}-{DATASET}"
+dir_name = f"{MODEL}-{DATASET}-types"
 RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
 os.makedirs(DATA_BASE, exist_ok=True)
 os.makedirs(RESULTS_BASE, exist_ok=True)
