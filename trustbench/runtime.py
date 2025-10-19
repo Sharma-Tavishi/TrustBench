@@ -3,6 +3,7 @@ from runtime_utils.citation import *
 from runtime_utils.safety import SafetyEval
 from runtime_utils.timeliness import date_from_domain
 
+from datetime import datetime
 import numpy as np
 import tqdm
 import json
@@ -30,8 +31,10 @@ class TrustBenchRuntime:
         self.cm = ModelConfidenceMapper(base_dir)
         self.cm.set_model_dataset(model_name, dataset)
         self.safety_eval = SafetyEval(safety_classifier)
-        self.urls = None
         self.ref_scanner = ReferenceScreener(publication_whitelist)
+        ## Class variables to store intermediate results
+        self.academic_references = None
+        self.urls = None
 
         ## Need to update these to make it a better default
         if(metric_weights is None):
@@ -78,10 +81,12 @@ class TrustBenchRuntime:
         if(self.verbose):
             print("Extracting academic references...")
 
-        academic_references = extract_references(x)
-        self.ref_scanner.process_references(academic_references)
+        if(self.academic_references is None):
+            self.academic_references = extract_references(x)
+        
+        self.ref_scanner.process_references(self.academic_references)
         academic_references_count = 0
-        for ref in academic_references:
+        for ref in self.academic_references:
             if(ref['allowed']):
                 academic_references_count += 1
         
@@ -128,14 +133,30 @@ class TrustBenchRuntime:
             self.urls = extract_urls(x)
         avg_domain_age = 0
         for url in self.urls :
-            domain_age = date_from_domain(self.urls , verbose=self.verbose)
+            domain_age = date_from_domain(url , verbose=self.verbose)
             avg_domain_age += domain_age if domain_age is not None else 0
 
         avg_domain_age = avg_domain_age / len(self.urls ) if len(self.urls ) > 0 else 1
         if(self.verbose):
             print(f"Average Domain Age Since Last Updated: {avg_domain_age} years")
         
-        return {"average_domain_age": avg_domain_age}
+        if(self.verbose):
+            print(f"Checking academic references timeliness...")
+        if(self.academic_references is None):
+            self.academic_references = extract_references(x)
+
+        current_year = datetime.now().year
+        avg_reference_age = 0
+        total = 0
+        for ref in self.academic_references:
+            if ref['allowed']:
+                avg_reference_age += (current_year - ref['year'])
+                total += 1
+        avg_reference_age = avg_reference_age / total if total > 0 else 1
+        if(self.verbose):
+            print(f"Average Academic Reference Age from allowed venues: {avg_reference_age} years")
+
+        return {"average_domain_age": avg_domain_age, "average_reference_age": avg_reference_age}
 
     def generate_trust_score(self, x:str, score:int) -> tuple[float, dict]:
         """ Generates the overall trust score along with individual metric scores.
