@@ -169,7 +169,6 @@ def main():
     runtime = TrustBenchRuntime(
         model_name="llama3.2:1b",
         dataset="truthful_qa",
-        base_dir="savedmodels/lookups",
         verbose=True
     )
 
