@@ -40,3 +40,4 @@ API_key.txt
 
 # -- Jupyter Notebook checkpoints --   
 *.ipynb_checkpoints
+trustbench/testing.ipynb
