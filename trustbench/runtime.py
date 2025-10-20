@@ -50,12 +50,14 @@ class TrustBenchRuntime:
         else:
             self.metric_weights = metric_weights
     
-    def load_metric_weights(self, json_path: str):
+    def load_metric_weights(self, json_path: str=None):
         """ Loads metric weights from a JSON file.
 
         Args:
-            json_path (str): Path to the JSON file containing metric weights.
+            json_path (str): Path to the JSON file containing metric weights. When None loads based on model and dataset name. Defaults to None.
         """
+        if(json_path is None):
+            json_path = f"saved_models/runtime_weights/{self.model_name}_{self.dataset}.json"
         with open(json_path) as f:
             self.metric_weights = json.loads(f.read().replace("NaN", "null"))
     

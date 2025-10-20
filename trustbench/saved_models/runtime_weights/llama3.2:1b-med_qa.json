@@ -1,0 +1,9 @@
+{
+    "url_validity_score": "0.25",
+    "academic_references_count": "0.25",
+    "ng1_rec": "0.5",
+    "nli_neutral": "0.5",
+    "safety_probability": "1.0",
+    "average_domain_age": "0.25",
+    "average_reference_age": "0.25"
+}
