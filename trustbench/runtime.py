@@ -8,6 +8,10 @@ import numpy as np
 import tqdm
 import json
 
+metrics_used = {'metrics': ['rouge_l', 'f1'],
+               'nli': ['nli_entailment', 'nli_contradiction', 'nli_neutral'],
+               'fconsistency': ['ng1_prec','ng1_rec','ng1_f1']}
+
 class TrustBenchRuntime:
     def __init__(self, model_name: str, dataset: str, 
                 base_dir="saved_models/lookups", 
