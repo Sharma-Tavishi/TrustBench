@@ -10,7 +10,7 @@ import json
 
 metrics_used = {'metrics': ['rouge_l', 'f1'],
                'nli': ['nli_entailment', 'nli_contradiction', 'nli_neutral'],
-               'fconsistency': ['ng1_prec','ng1_rec','ng1_f1']}
+               'fconsistency': ['ng1_prec','ng1_rec','ng1_f1']} 
 
 class TrustBenchRuntime:
     def __init__(self, model_name: str, dataset: str, 
@@ -53,7 +53,7 @@ class TrustBenchRuntime:
             json_path (str): Path to the JSON file containing metric weights. When None loads based on model and dataset name. Defaults to None.
         """
         if(json_path is None):
-            json_path = f"saved_models/runtime_weights/{self.model_name}_{self.dataset}.json"
+            json_path = f"saved_models/runtime_weights/{self.model_name}-{self.dataset}.json"
         with open(json_path) as f:
             self.metric_weights = json.loads(f.read().replace("NaN", "null"))
     
