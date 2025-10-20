@@ -14,7 +14,7 @@ load_dotenv()
 api_key = os.getenv("OPENAI_API_KEY")
 print(api_key)
 
-all_metrics_dict = {'metrics': ['rouge_l', 'f1','bertscore_f1'],
+all_metrics_dict = {'metrics': ['rouge_l', 'f1'],
                'nli': ['nli_entailment', 'nli_contradiction', 'nli_neutral'],
                'fconsistency': ['ng1_prec','ng1_rec','ng1_f1']}
 

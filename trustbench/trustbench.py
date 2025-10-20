@@ -21,20 +21,20 @@ if(MODEL_MODE=="openai"):
     MODEL = "gpt-4.1-mini"
 elif(MODEL_MODE=="ollama"):
     ## Local OLLAMA Mode
-    MODEL = "llama3.2:1b" # llama3.2:1b llama3:8b
+    MODEL = "llama3:8b" # llama3.2:1b llama3:8b
 
 print(f"Using MODEL_MODE={MODEL_MODE}, MODEL={MODEL}")
 
 # SET MODEL EXECUTION MODE HERE
 
-DATASET= 'truthful_qa' ## Change to truthful_qa, mixed_qa, med_qa, or fin_qa
+DATASET= 'fin_qa' ## Change to truthful_qa, mixed_qa, med_qa, or fin_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
 CONFIDENCE_QUESTION = "Rate confidence in correctness of your answer in **exactly one word** from [High, Med, Low] without any explanation."
 # CONFIDENCE_QUESTION = "Only reply with a single number. Given the question and your answer, rate correctness on a scale (1=worst, 5=best)."
 # CONFIDENCE_QUESTION = 'Rate confidence in correctness on scale of 1 to 5 (1=worst, 5=best). Answer must be a single number without an explanation'
-dir_name = f"{MODEL}-{DATASET}-highmed"
+dir_name = f"{MODEL}-{DATASET}"
 RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
 os.makedirs(DATA_BASE, exist_ok=True)
 os.makedirs(RESULTS_BASE, exist_ok=True)

@@ -1,0 +1,25 @@
+{
+  "ngram": {
+    "n": 150,
+    "aggregate": {
+      "ng1_prec": 0.010750884051120003,
+      "ng1_rec": 0.6666666666666666,
+      "ng1_f1": 0.021069281735603327,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "nli": {
+    "n": 150,
+    "aggregate": {
+      "nli_entailment": 0.6523897571861744,
+      "nli_contradiction": 0.19459782153484412,
+      "nli_neutral": 0.4012037250213325
+    },
+    "model": "facebook/bart-large-mnli"
+  }
+}
