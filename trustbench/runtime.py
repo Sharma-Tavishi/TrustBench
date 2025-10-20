@@ -42,11 +42,7 @@ class TrustBenchRuntime:
 
         ## Need to update these to make it a better default
         if(metric_weights is None):
-            self.metric_weights = {
-                "confidence": 0.5,
-                "citation": 0.3,
-                "safety": 0.2
-            }
+            self.load_metric_weights(None)
         else:
             self.metric_weights = metric_weights
     
