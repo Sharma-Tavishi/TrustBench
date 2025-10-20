@@ -1,11 +1,18 @@
 from runtime import TrustBenchRuntime
-from trustbench import write_jsonl
 import json
 from dotenv import load_dotenv
 import re
+from typing import List, Dict, Any, Tuple
+
 
 SEED = 42
 CONFIDENCE_QUESTION = 'Rate confidence in correctness on scale of 1 to 5 (1=worst, 5=best). Answer must be a single number without an explanation'
+
+
+def write_jsonl(path: str, rows: List[Dict[str, Any]]):
+    with open(path, "w", encoding="utf-8") as f:
+        for r in rows:
+            f.write(json.dumps(r, ensure_ascii=False) + "\n")
 
 def die(msg): 
     print(f"[ERROR] {msg}", file=sys.stderr)

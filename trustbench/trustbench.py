@@ -12,7 +12,7 @@ import re
 load_dotenv()
 
 # if pathlib.Path("API_key.env").exists() and not os.getenv("OPENAI_API_KEY"):
-#     os.environ["OPENAI_API_KEY"] = pathlib.Path("API_key.txt").read_text().strip()
+#      os.environ["OPENAI_API_KEY"] = pathlib.Path("API_key.txt").read_text().strip()
 
 MODEL_MODE = "openai"  ## Change to "ollama" to use local Oll
 
@@ -22,7 +22,7 @@ if(MODEL_MODE=="openai"):
     MODEL = "gpt-4.1-mini"
 elif(MODEL_MODE=="ollama"):
     ## Local OLLAMA Mode
-    MODEL = "llama3:8b" # llama3.2:1b llama3:8b
+    MODEL = "llama3.2:1b" # llama3.2:1b llama3:8b
 
 print(f"Using MODEL_MODE={MODEL_MODE}, MODEL={MODEL}")
 
@@ -253,6 +253,58 @@ def prepare_fin_qa(n: int = DEFAULT_SUBSET,
         refs.append({"id": rid, "references": best, "reference": best[0]})
     return prompts, refs
 
+
+def prepare_mind2web(n: int = DEFAULT_SUBSET,
+                     split: str = "train",
+                     seed: int = SEED):
+    random.seed(seed)
+    dataset = "osunlp/Mind2Web"
+
+    
+    ds = load_dataset(dataset)[split]
+
+    indices = list(range(len(ds)))
+    random.shuffle(indices)
+    indices = indices[:n]
+
+    print("Loaded Mind2Web dataset with {} items, using subset of {}.".format(len(ds), len(indices)))
+
+    prompts = []
+    refs = []
+
+    for i, idx in enumerate(indices):
+        row = ds[int(idx)]
+
+        # Mind2Web fields
+        q = (row.get("confirmed_task") or "").strip()
+        actions = row.get("action_reprs") or []
+
+        # Prepare reference list
+        ref_list = []
+        if isinstance(actions, list):
+            for r in actions:
+                if isinstance(r, str):
+                    r = r.strip()
+                    if r and r not in ref_list:
+                        ref_list.append(r)
+
+        best = ref_list[0] if ref_list else ""
+        rid = f"mind2web-{i:04d}"
+
+        # identical structure to TruthfulQA version
+        prompts.append({
+            "id": rid,
+            "prompt": q,
+            "system": "You are an expert web automation assistant. Describe the next UI action accurately."
+        })
+        refs.append({
+            "id": rid,
+            "references": ref_list,
+            "reference": best
+        })
+
+    return prompts, refs
+
 def prepare_data_subset(dataset:str, DATA_DIR:str,
                         n: int = DEFAULT_SUBSET, 
                         split: str = "validation", 
@@ -267,6 +319,8 @@ def prepare_data_subset(dataset:str, DATA_DIR:str,
         prompts, refs = prepare_med_qa(n=n, split='test', seed=seed)
     elif(dataset=="fin_qa"):
         prompts, refs = prepare_fin_qa(n=n, split='test', seed=seed)
+    elif(dataset=="Mind2Web"):
+        prompts, refs = prepare_fin_qa(n=n, split='train', seed=seed)
     else:
         print(f"Unknown dataset: {dataset}")
         raise RuntimeError(f"Unknown dataset: {dataset}")
