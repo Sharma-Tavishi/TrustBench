@@ -46,7 +46,7 @@ def date_from_domain(url, verbose=False):
             return None 
     
     except Exception as e:
-        print(f"An error occurred: {e}")
+        pass 
 
 def extract_urls(text: str) -> list:
     """

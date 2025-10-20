@@ -7,6 +7,7 @@ from datetime import datetime
 import numpy as np
 import tqdm
 import json
+import re
 
 metrics_used = {'metrics': ['rouge_l', 'f1'],
                'nli': ['nli_entailment', 'nli_contradiction', 'nli_neutral'],
@@ -17,7 +18,8 @@ class TrustBenchRuntime:
                 base_dir="saved_models/lookups", 
                 metric_weights :dict = None,
                 safety_classifier: str = "tg1482/setfit-safety-classifier-lda",
-                publication_whitelist=None, verbose=False):
+                publication_whitelist=None, verbose=False,
+                link_verify=True, check_link_time=True):
         """  Initializes the TrustBenchRuntime with specified parameters.
 
         Args:
@@ -28,6 +30,8 @@ class TrustBenchRuntime:
             safety_classifier (str, optional): Classifier to generate safety scores. Defaults to "tg1482/setfit-safety-classifier-lda".
             publication_whitelist (list, optional): List of allowed publication venues. When None, all venues are allowed. Defaults to None.
             verbose (bool, optional): Flag to print logging information . Defaults to False.
+            link_verify (bool, optional): Flag to verify links in citation score. Defaults to True.
+            check_link_time (bool, optional): Flag to set time limit while checking links. Defaults to True.
         """
         self.verbose = verbose
         self.model_name = model_name
@@ -39,6 +43,8 @@ class TrustBenchRuntime:
         ## Class variables to store intermediate results
         self.academic_references = None
         self.urls = None
+        self.link_verify = link_verify
+        self.check_link_time = check_link_time
 
         ## Need to update these to make it a better default
         if(metric_weights is None):
@@ -68,7 +74,10 @@ class TrustBenchRuntime:
             print("Extracting url sources...")
         if(self.urls== None):
             self.urls = extract_urls(x)
-        verify_links = [verify_link(url) for url in self.urls]
+        if(self.link_verify):
+            verify_links = [verify_link(url) for url in self.urls]
+        else:
+            verify_links = [True for url in self.urls]
         url_validity_score = 0
         if(self.verbose):
             print("Verifying urls...")
@@ -136,7 +145,10 @@ class TrustBenchRuntime:
             self.urls = extract_urls(x)
         avg_domain_age = 0
         for url in self.urls :
-            domain_age = date_from_domain(url , verbose=self.verbose)
+            if(self.check_link_time):
+                domain_age = date_from_domain(url , verbose=self.verbose)
+            else:
+                domain_age = 0
             avg_domain_age += domain_age if domain_age is not None else 0
 
         avg_domain_age = avg_domain_age / len(self.urls ) if len(self.urls ) > 0 else 1
@@ -153,13 +165,13 @@ class TrustBenchRuntime:
         total = 0
         for ref in self.academic_references:
             if ref['allowed']:
-                avg_reference_age += (current_year - ref['year'])
+                avg_reference_age += (current_year - int(ref['year']))
                 total += 1
         avg_reference_age = avg_reference_age / total if total > 0 else 1
         if(self.verbose):
             print(f"Average Academic Reference Age from allowed venues: {avg_reference_age} years")
 
-        return {"average_domain_age": avg_domain_age, "average_reference_age": avg_reference_age}
+        return {"average_domain_age": 1/(avg_domain_age+1), "average_reference_age": 1/(avg_reference_age+1)}
 
     def generate_trust_score(self, x:str, score:int) -> tuple[float, dict]:
         """ Generates the overall trust score along with individual metric scores.
@@ -193,7 +205,7 @@ class TrustBenchRuntime:
         # Weighted Trust Score Calculation
         trust_score = 0
         for k,v in self.metric_weights.items():
-            trust_score += v * trust_dict[k]
+            trust_score += float(v) * trust_dict[k]
         
         return trust_score, trust_dict
         # return trust_dict

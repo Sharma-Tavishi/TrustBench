@@ -1,10 +1,11 @@
 from runtime import TrustBenchRuntime
-from trustbench import generate_ollama
 from trustbench import write_jsonl
 import json
 from dotenv import load_dotenv
+import re
 
-CONFIDENCE_QUESTION = "Rate confidence in correctness of your answer in **exactly one word** from [High, Med, Low] without any explanation."
+SEED = 42
+CONFIDENCE_QUESTION = 'Rate confidence in correctness on scale of 1 to 5 (1=worst, 5=best). Answer must be a single number without an explanation'
 
 def die(msg): 
     print(f"[ERROR] {msg}", file=sys.stderr)
@@ -51,8 +52,8 @@ def extract_score(text: str) -> int | None:
 
 def generate_openai(
     prompt: str,
+    model: str,
     _OPENAI_CLIENT,
-    model: str = MODEL,
     temperature: float = 0.3,
     max_tokens: int = 256,
 ):
@@ -96,7 +97,7 @@ def generate_openai(
 
     return answer, extract_score(score)
 
-def generate_ollama(prompt: str, model: str = MODEL, temperature: float = 0.3, top_p: float = 0.9, max_tokens: int = 256, seed: int = SEED) -> str:
+def generate_ollama(prompt: str, model: str , temperature: float = 0.3, top_p: float = 0.9, max_tokens: int = 256, seed: int = SEED) -> str:
     import json, urllib.request
     req = urllib.request.Request(
         "http://localhost:11434/api/generate",
@@ -118,7 +119,7 @@ def generate_ollama(prompt: str, model: str = MODEL, temperature: float = 0.3, t
     except Exception as e:
         die(f"Ollama HTTP call failed. Is 'ollama serve' running? Error: {e}")
 
-    confidence_prompt = f"{CONFIDENCE_QUESTION} - QUESTION:\n{prompt}\nYOU RESPONSE:\n{response}"
+    confidence_prompt = f"{CONFIDENCE_QUESTION} - QUESTION:\n{prompt}\n UNTRUSTWORTHY RESPONSE:\n{response}"
 
     req2 = urllib.request.Request(
         "http://localhost:11434/api/generate",
@@ -144,13 +145,13 @@ def generate_ollama(prompt: str, model: str = MODEL, temperature: float = 0.3, t
     return response,extract_score(score)
 
 
-def run_generation(prompt: str,MODEL_MODE="ollama",_OPENAI_CLIENT=None) -> str:
-    prompt += "Mention any sources as urls or academic papers. Paper citations must be in the format '(title,date,venue)'"
+def run_generation(prompt: str,model:str, MODEL_MODE="ollama",_OPENAI_CLIENT=None) -> str:
+    prompt += "Mention any sources as urls or ac ademic papers. Paper citations must be in the format '(title,date,venue)'"
     assert(MODEL_MODE =="openai" and _OPENAI_CLIENT is not None) or (MODEL_MODE=="ollama")
     if(MODEL_MODE=="openai"):
-        text, score = generate_openai(prompt)
+        text, score = generate_openai(prompt,model ,_OPENAI_CLIENT)
     elif(MODEL_MODE=="ollama"):
-        text,score = generate_ollama(prompt)
+        text,score = generate_ollama(prompt,model)
     return text,score
 
 def argparser():

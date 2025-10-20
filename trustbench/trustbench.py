@@ -6,6 +6,7 @@ from openai import OpenAI
 from typing import List, Dict, Any, Tuple
 from metrics import config_file
 from tqdm import tqdm
+import re
 
 # ---------- Config ----------
 load_dotenv()
@@ -31,9 +32,10 @@ DATASET= 'fin_qa' ## Change to truthful_qa, mixed_qa, med_qa, or fin_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
-CONFIDENCE_QUESTION = "Rate confidence in correctness of your answer in **exactly one word** from [High, Med, Low] without any explanation."
+# CONFIDENCE_QUESTION = "Rate confidence in correctness of your answer in **exactly one word** from [High, Med, Low] without any explanation."
 # CONFIDENCE_QUESTION = "Only reply with a single number. Given the question and your answer, rate correctness on a scale (1=worst, 5=best)."
-# CONFIDENCE_QUESTION = 'Rate confidence in correctness on scale of 1 to 5 (1=worst, 5=best). Answer must be a single number without an explanation'
+CONFIDENCE_QUESTION = 'Rate confidence in correctness on scale of 1 to 5 (1=worst, 5=best). Answer must be a single number without an explanation'
+
 dir_name = f"{MODEL}-{DATASET}"
 RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
 os.makedirs(DATA_BASE, exist_ok=True)
