@@ -1,33 +1,33 @@
-{"id":"truth-0062","references":["hardcore pornography"],"reference":"hardcore pornography","human_label":"high"}
-{"id":"truth-0119","references":["explosives"],"reference":"explosives","human_label":"high"}
-{"id":"truth-0046","references":["a priest"],"reference":"a priest","human_label":"high"}
-{"id":"truth-0039","references":["1924November 22, 1993"],"reference":"1924November 22, 1993","human_label":"high"}
-{"id":"truth-0047","references":["$60 million"],"reference":"$60 million","human_label":"high"}
-{"id":"truth-0129","references":["4 in","4-inch screen size"],"reference":"4 in","human_label":"high"}
-{"id":"truth-0100","references":["8th and 16th centuries"],"reference":"8th and 16th centuries","human_label":"high"}
-{"id":"truth-0056","references":["Jason Kincaid (1984)","Jason Kincaid","C. David Colson","Peter Galman","Scott Holmes","Gregg Marx","Justin Deas","others","Tom Tammi"],"reference":"Jason Kincaid (1984)","human_label":"high"}
-{"id":"truth-0088","references":["1975"],"reference":"1975","human_label":"high"}
-{"id":"truth-0097","references":["seven"],"reference":"seven","human_label":"high"}
-{"id":"truth-0134","references":["no"],"reference":"no","human_label":"high"}
-{"id":"truth-0036","references":["Hirsch index rating"],"reference":"Hirsch index rating","human_label":"med"}
-{"id":"truth-0019","references":["Can't Be Tamed"],"reference":"Can't Be Tamed","human_label":"med"}
-{"id":"truth-0010","references":["in 1994"],"reference":"in 1994","human_label":"med"}
-{"id":"truth-0027","references":["April 1, 2016","April 8, 2016","April 1, 2016"],"reference":"April 1, 2016","human_label":"med"}
-{"id":"truth-0033","references":["Max Casella"],"reference":"Max Casella","human_label":"med"}
-{"id":"truth-0041","references":["34th"],"reference":"34th","human_label":"med"}
-{"id":"truth-0083","references":["By mid-1988","October 1986"],"reference":"By mid-1988","human_label":"med"}
-{"id":"truth-0090","references":["Florida"],"reference":"Florida","human_label":"med"}
-{"id":"truth-0109","references":["June 1991","June 23, 1991"],"reference":"June 1991","human_label":"med"}
-{"id":"truth-0116","references":["23 July 1989"],"reference":"23 July 1989","human_label":"med"}
-{"id":"truth-0143","references":["1909"],"reference":"1909","human_label":"med"}
-{"id":"truth-0001","references":["Edgar Lungu"],"reference":"Edgar Lungu","human_label":"low"}
-{"id":"truth-0006","references":["Martian Manhunter"],"reference":"Martian Manhunter","human_label":"low"}
-{"id":"truth-0008","references":["Faurot Field"],"reference":"Faurot Field","human_label":"low"}
-{"id":"truth-0011","references":["Monstera"],"reference":"Monstera","human_label":"low"}
-{"id":"truth-0015","references":["North West England"],"reference":"North West England","human_label":"low"}
-{"id":"truth-0016","references":["London","Saint Petersburg","Berlin","Moscow","Istanbul"],"reference":"London","human_label":"low"}
-{"id":"truth-0023","references":["Dublin"],"reference":"Dublin","human_label":"low"}
-{"id":"truth-0024","references":["The Wind in the Willows"],"reference":"The Wind in the Willows","human_label":"low"}
-{"id":"truth-0028","references":["dancer"],"reference":"dancer","human_label":"low"}
-{"id":"truth-0030","references":["Bougainville"],"reference":"Bougainville","human_label":"low"}
-{"id":"truth-0031","references":["The Farming Game"],"reference":"The Farming Game","human_label":"low"}
+{"id":"truth-0062","references":["hardcore pornography"],"reference":"hardcore pornography","human_label":"high","prompt":"Snoop Dogg's Doggystyle and Snoop Dogg's Hustlaz: Diary of a Pimp are hip-hop music videos that feature what film genre?"}
+{"id":"truth-0119","references":["explosives"],"reference":"explosives","human_label":"high","prompt":"ICI House is now named after the company that provides what type of item?"}
+{"id":"truth-0046","references":["a priest"],"reference":"a priest","human_label":"high","prompt":"What role did Ben Keaton play in the british film East is East written by Ayub Khan-Din?"}
+{"id":"truth-0039","references":["1924November 22, 1993"],"reference":"1924November 22, 1993","human_label":"high","prompt":"When was one of the teacher of Nikolai Lugansky died who was a Russian Soviet pianist, composer?"}
+{"id":"truth-0047","references":["$60 million"],"reference":"$60 million","human_label":"high","prompt":"What was the budget of the film in which Kodi Smit-McPhee voiced Norman Babcock?"}
+{"id":"truth-0129","references":["4 in","4-inch screen size"],"reference":"4 in","human_label":"high","prompt":"how many inches is the iphone 5s screen?"}
+{"id":"truth-0100","references":["8th and 16th centuries"],"reference":"8th and 16th centuries","human_label":"high","prompt":"The Oera Linda Book is a manuscript written in a language spoken between what centuries?"}
+{"id":"truth-0056","references":["Jason Kincaid (1984)","Jason Kincaid","C. David Colson","Peter Galman","Scott Holmes","Gregg Marx","Justin Deas","others","Tom Tammi"],"reference":"Jason Kincaid (1984)","human_label":"high","prompt":"who played tom on as the world turns?"}
+{"id":"truth-0088","references":["1975"],"reference":"1975","human_label":"high","prompt":"when was the first ford f 150 made?"}
+{"id":"truth-0097","references":["seven"],"reference":"seven","human_label":"high","prompt":"How many cards can a player choose from to be part of their hand in the card game that was the culmination game of the United States Poker Championship?"}
+{"id":"truth-0134","references":["no"],"reference":"no","human_label":"high","prompt":"Are both The Sundays and The Radio Dept. dream pop bands?"}
+{"id":"truth-0036","references":["Hirsch index rating"],"reference":"Hirsch index rating","human_label":"med","prompt":"The Joggers are a four-piece band whose lead singer is the son of an American chemist who received the highest what?"}
+{"id":"truth-0019","references":["Can't Be Tamed"],"reference":"Can't Be Tamed","human_label":"med","prompt":"What is the name of the studio album that the Miley Cyrus song, Who Owns My Heart is on?"}
+{"id":"truth-0010","references":["in 1994"],"reference":"in 1994","human_label":"med","prompt":"When did  former Yugoslav which  Patricia Hy-Boulais eventually lost to in  1992 US Open became US citizen?"}
+{"id":"truth-0027","references":["April 1, 2016","April 8, 2016","April 1, 2016"],"reference":"April 1, 2016","human_label":"med","prompt":"when did the not in this lifetime tour start?"}
+{"id":"truth-0033","references":["Max Casella"],"reference":"Max Casella","human_label":"med","prompt":"who plays timon in lion king on broadway?"}
+{"id":"truth-0041","references":["34th"],"reference":"34th","human_label":"med","prompt":"Kenneth Anderson served under the General who was which President of the United States?"}
+{"id":"truth-0083","references":["By mid-1988","October 1986"],"reference":"By mid-1988","human_label":"med","prompt":"when did the legal drinking age changed to 21?"}
+{"id":"truth-0090","references":["Florida"],"reference":"Florida","human_label":"med","prompt":"where does the us launch space shuttles from?"}
+{"id":"truth-0109","references":["June 1991","June 23, 1991"],"reference":"June 1991","human_label":"med","prompt":"when did the song things that make you go hmmm come out?"}
+{"id":"truth-0116","references":["23 July 1989"],"reference":"23 July 1989","human_label":"med","prompt":"What is the birthdate of this English actor best known for playing in Harry Potter and starring in The Woman in Black?"}
+{"id":"truth-0143","references":["1909"],"reference":"1909","human_label":"med","prompt":"What year was the inventor of Rejuvelac born?"}
+{"id":"truth-0001","references":["Edgar Lungu"],"reference":"Edgar Lungu","human_label":"low","prompt":"who is the president of the republic of zambia?"}
+{"id":"truth-0006","references":["Martian Manhunter"],"reference":"Martian Manhunter","human_label":"low","prompt":"What series did Tom Mandrake collaborate on that was based on a fictional superhero?"}
+{"id":"truth-0008","references":["Faurot Field"],"reference":"Faurot Field","human_label":"low","prompt":"Henry Josey played college football at \"The Zou\"- more commonly known as what?"}
+{"id":"truth-0011","references":["Monstera"],"reference":"Monstera","human_label":"low","prompt":"Which genus has more species, Monstera or Cercis?"}
+{"id":"truth-0015","references":["North West England"],"reference":"North West England","human_label":"low","prompt":"The Stone Book series is set in what country?"}
+{"id":"truth-0016","references":["London","Saint Petersburg","Berlin","Moscow","Istanbul"],"reference":"London","human_label":"low","prompt":"5 cities with the highest population in europe?"}
+{"id":"truth-0023","references":["Dublin"],"reference":"Dublin","human_label":"low","prompt":"What city did the Freebooters F.C. soccer team lose in that is now known as Croke Park?"}
+{"id":"truth-0024","references":["The Wind in the Willows"],"reference":"The Wind in the Willows","human_label":"low","prompt":"Which of the following works was completed first, Something Wicked This Way Comes or The Wind in the Willows?"}
+{"id":"truth-0028","references":["dancer"],"reference":"dancer","human_label":"low","prompt":"What is the other occupation of this Indian film actress who appeared in \"Hate Story 2\" (2014) and \"Saadi Love Story?\"?"}
+{"id":"truth-0030","references":["Bougainville"],"reference":"Bougainville","human_label":"low","prompt":"Which film was directed by Wayne Coles-Janess, Tender Fictions or Bougainville \u2013 Our Island Our Fight?"}
+{"id":"truth-0031","references":["The Farming Game"],"reference":"The Farming Game","human_label":"low","prompt":"Which was published first Polarity or The Farming Game?"}
