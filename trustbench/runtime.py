@@ -191,12 +191,12 @@ class TrustBenchRuntime:
 
 
         # Weighted Trust Score Calculation
-        # trust_score = 0
-        # for k,v in self.metric_weights.items():
-        #     trust_score += v * trust_dict[k]
+        trust_score = 0
+        for k,v in self.metric_weights.items():
+            trust_score += v * trust_dict[k]
         
-        # return trust_score, trust_dict
-        return trust_dict
+        return trust_score, trust_dict
+        # return trust_dict
 
 
 #test
