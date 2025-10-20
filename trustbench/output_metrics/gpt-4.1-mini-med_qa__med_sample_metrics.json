@@ -1,0 +1,662 @@
+{
+  "truth-0127": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0127",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7644485235214233
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0127",
+      "ng1_prec": 0.0072992700729927005,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.014492753623188404,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0003": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0003",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7671641111373901
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0003",
+      "ng1_prec": 0.007352941176470588,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.014598540145985401,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0092": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0092",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7701916098594666
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0092",
+      "ng1_prec": 0.006622516556291391,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.013157894736842105,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0123": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0123",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7724097371101379
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0123",
+      "ng1_prec": 0.006711409395973154,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.013333333333333332,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0130": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0130",
+      "f1": 0.01234567901234568,
+      "rouge_l": 0.01234567901234568,
+      "bertscore_f1": 0.7581615447998047
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0130",
+      "ng1_prec": 0.006211180124223602,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.01234567901234568,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0083": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0083",
+      "f1": 0.015037593984962407,
+      "rouge_l": 0.015037593984962407,
+      "bertscore_f1": 0.7733367681503296
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0083",
+      "ng1_prec": 0.007575757575757576,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.015037593984962407,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0039": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0039",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7683781385421753
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0039",
+      "ng1_prec": 0.006666666666666667,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.013245033112582783,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0131": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0131",
+      "f1": 0.023529411764705882,
+      "rouge_l": 0.023529411764705882,
+      "bertscore_f1": 0.7611629366874695
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0131",
+      "ng1_prec": 0.011904761904761904,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.023529411764705882,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0038": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0038",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7734917402267456
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0038",
+      "ng1_prec": 0.006802721088435374,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.013513513513513513,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0119": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0119",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7753947973251343
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0119",
+      "ng1_prec": 0.008928571428571428,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.017699115044247787,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0136": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0136",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.784363329410553
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0136",
+      "ng1_prec": 0.0058823529411764705,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.011695906432748537,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0032": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0032",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7493921518325806
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0032",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0134": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0134",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7672958374023438
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0134",
+      "ng1_prec": 0.008130081300813009,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.01612903225806452,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0040": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0040",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7932131290435791
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0040",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0128": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0128",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7718009948730469
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0128",
+      "ng1_prec": 0.005952380952380952,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.011834319526627219,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0133": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0133",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7682764530181885
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0133",
+      "ng1_prec": 0.0070921985815602835,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.014084507042253521,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0030": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0030",
+      "f1": 0.01234567901234568,
+      "rouge_l": 0.01234567901234568,
+      "bertscore_f1": 0.770084798336029
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0030",
+      "ng1_prec": 0.006211180124223602,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.01234567901234568,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0072": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0072",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7735495567321777
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0072",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0060": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0060",
+      "f1": 0.015151515151515152,
+      "rouge_l": 0.015151515151515152,
+      "bertscore_f1": 0.768964946269989
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0060",
+      "ng1_prec": 0.007633587786259542,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.015151515151515152,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0065": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0065",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7710069417953491
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0065",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0067": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0067",
+      "f1": 0.014814814814814815,
+      "rouge_l": 0.014814814814814815,
+      "bertscore_f1": 0.7681987881660461
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0067",
+      "ng1_prec": 0.007462686567164179,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.014814814814814815,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0063": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0063",
+      "f1": 0.01612903225806452,
+      "rouge_l": 0.01612903225806452,
+      "bertscore_f1": 0.7712158560752869
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0063",
+      "ng1_prec": 0.008130081300813009,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.01612903225806452,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0000": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0000",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7746618986129761
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0000",
+      "ng1_prec": 0.007042253521126761,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.013986013986013986,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0109": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0109",
+      "f1": 0.014388489208633093,
+      "rouge_l": 0.014388489208633093,
+      "bertscore_f1": 0.7613969445228577
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0109",
+      "ng1_prec": 0.007246376811594203,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.014388489208633093,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0141": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0141",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.770583987236023
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0141",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0018": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0018",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7702077627182007
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0018",
+      "ng1_prec": 0.0070921985815602835,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.014084507042253521,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0053": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0053",
+      "f1": 0.017094017094017096,
+      "rouge_l": 0.017094017094017096,
+      "bertscore_f1": 0.7842006683349609
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0053",
+      "ng1_prec": 0.008620689655172414,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.017094017094017096,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0075": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0075",
+      "f1": 0.08333333333333333,
+      "rouge_l": 0.08333333333333333,
+      "bertscore_f1": 0.8082572221755981
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0075",
+      "ng1_prec": 0.043478260869565216,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.08333333333333333,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0085": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0085",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7765527367591858
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0085",
+      "ng1_prec": 0.006896551724137931,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.0136986301369863,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0061": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0061",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7651439309120178
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0061",
+      "ng1_prec": 0.006993006993006993,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.013888888888888888,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0132": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0132",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7648274898529053
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0132",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0095": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0095",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7795762419700623
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0095",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0042": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0042",
+      "f1": 0.0,
+      "rouge_l": 0.0,
+      "bertscore_f1": 0.7728132009506226
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0042",
+      "ng1_prec": 0.007751937984496124,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.015384615384615384,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  }
+}

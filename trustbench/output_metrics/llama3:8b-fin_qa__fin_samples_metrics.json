@@ -1,0 +1,629 @@
+{
+  "truth-0127": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0127",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0127",
+      "ng1_prec": 0.017241379310344827,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.03389830508474576,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0003": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0003",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0003",
+      "ng1_prec": 0.013513513513513514,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.026666666666666665,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0092": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0092",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0092",
+      "ng1_prec": 0.006535947712418301,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.012987012987012988,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0123": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0123",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0123",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0130": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0130",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0130",
+      "ng1_prec": 0.011627906976744186,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.022988505747126436,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0083": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0083",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0083",
+      "ng1_prec": 0.016666666666666666,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.03278688524590164,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0039": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0039",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0039",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0131": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0131",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0131",
+      "ng1_prec": 0.011363636363636364,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.02247191011235955,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0038": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0038",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0038",
+      "ng1_prec": 0.00684931506849315,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.013605442176870748,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0119": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0119",
+      "f1": 0.0273972602739726,
+      "rouge_l": 0.0273972602739726
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0119",
+      "ng1_prec": 0.013888888888888888,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.0273972602739726,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0136": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0136",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0136",
+      "ng1_prec": 0.012048192771084338,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.02380952380952381,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0032": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0032",
+      "f1": 0.030303030303030307,
+      "rouge_l": 0.030303030303030307
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0032",
+      "ng1_prec": 0.015384615384615385,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.030303030303030307,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0134": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0134",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0134",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0040": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0040",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0040",
+      "ng1_prec": 0.0196078431372549,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.038461538461538464,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0128": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0128",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0128",
+      "ng1_prec": 0.014084507042253521,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.02777777777777778,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0133": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0133",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0133",
+      "ng1_prec": 0.011363636363636364,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.02247191011235955,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0030": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0030",
+      "f1": 0.05405405405405406,
+      "rouge_l": 0.05405405405405406
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0030",
+      "ng1_prec": 0.027777777777777776,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.05405405405405406,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0072": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0072",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0072",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0060": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0060",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0060",
+      "ng1_prec": 0.015384615384615385,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.030303030303030307,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0065": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0065",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0065",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0067": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0067",
+      "f1": 0.03278688524590164,
+      "rouge_l": 0.03278688524590164
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0067",
+      "ng1_prec": 0.016666666666666666,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.03278688524590164,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0063": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0063",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0063",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0000": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0000",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0000",
+      "ng1_prec": 0.016666666666666666,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.03278688524590164,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0109": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0109",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0109",
+      "ng1_prec": 0.015384615384615385,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.030303030303030307,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0141": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0141",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0141",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0018": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0018",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0018",
+      "ng1_prec": 0.012658227848101266,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.024999999999999998,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0053": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0053",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0053",
+      "ng1_prec": 0.014925373134328358,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.029411764705882353,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0075": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0075",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0075",
+      "ng1_prec": 0.012195121951219513,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.024096385542168676,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0085": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0085",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0085",
+      "ng1_prec": 0.016666666666666666,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.03278688524590164,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0061": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0061",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0061",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0132": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0132",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0132",
+      "ng1_prec": 0.017857142857142856,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.03508771929824561,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0095": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0095",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0095",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0042": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0042",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0042",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  }
+}

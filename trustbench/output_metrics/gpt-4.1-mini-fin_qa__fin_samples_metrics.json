@@ -1,0 +1,629 @@
+{
+  "truth-0127": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0127",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0127",
+      "ng1_prec": 0.02040816326530612,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.039999999999999994,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0003": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0003",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0003",
+      "ng1_prec": 0.0136986301369863,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.027027027027027025,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0092": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0092",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0092",
+      "ng1_prec": 0.013888888888888888,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.0273972602739726,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0123": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0123",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0123",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0130": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0130",
+      "f1": 0.012269938650306747,
+      "rouge_l": 0.012269938650306747
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0130",
+      "ng1_prec": 0.006172839506172839,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.012269938650306747,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0083": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0083",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0083",
+      "ng1_prec": 0.017543859649122806,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.034482758620689655,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0039": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0039",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0039",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0131": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0131",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0131",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0038": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0038",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0038",
+      "ng1_prec": 0.014925373134328358,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.029411764705882353,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0119": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0119",
+      "f1": 0.039999999999999994,
+      "rouge_l": 0.039999999999999994
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0119",
+      "ng1_prec": 0.02040816326530612,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.039999999999999994,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0136": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0136",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0136",
+      "ng1_prec": 0.013333333333333334,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.02631578947368421,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0032": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0032",
+      "f1": 0.03076923076923077,
+      "rouge_l": 0.03076923076923077
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0032",
+      "ng1_prec": 0.015625,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.03076923076923077,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0134": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0134",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0134",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0040": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0040",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0040",
+      "ng1_prec": 0.011235955056179775,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.02222222222222222,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0128": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0128",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0128",
+      "ng1_prec": 0.01639344262295082,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.03225806451612903,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0133": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0133",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0133",
+      "ng1_prec": 0.01639344262295082,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.03225806451612903,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0030": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0030",
+      "f1": 0.03773584905660378,
+      "rouge_l": 0.03773584905660378
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0030",
+      "ng1_prec": 0.019230769230769232,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.03773584905660378,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0072": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0072",
+      "f1": 0.03125,
+      "rouge_l": 0.03125
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0072",
+      "ng1_prec": 0.015873015873015872,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.03125,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0060": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0060",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0060",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0065": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0065",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0065",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0067": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0067",
+      "f1": 0.02777777777777778,
+      "rouge_l": 0.02777777777777778
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0067",
+      "ng1_prec": 0.014084507042253521,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.02777777777777778,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0063": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0063",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0063",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0000": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0000",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0000",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0109": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0109",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0109",
+      "ng1_prec": 0.019230769230769232,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.03773584905660378,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0141": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0141",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0141",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0018": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0018",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0018",
+      "ng1_prec": 0.010309278350515464,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.020408163265306124,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0053": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0053",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0053",
+      "ng1_prec": 0.013513513513513514,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.026666666666666665,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0075": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0075",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0075",
+      "ng1_prec": 0.009708737864077669,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.01923076923076923,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0085": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0085",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0085",
+      "ng1_prec": 0.014705882352941176,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.028985507246376812,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0061": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0061",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0061",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0132": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0132",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0132",
+      "ng1_prec": 0.014084507042253521,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.02777777777777778,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0095": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0095",
+      "f1": 0.0,
+      "rouge_l": 0.0
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0095",
+      "ng1_prec": 0.0,
+      "ng1_rec": 0.0,
+      "ng1_f1": 0.0,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  },
+  "truth-0042": {
+    "metrics_detail.jsonl": {
+      "id": "truth-0042",
+      "f1": 0.0273972602739726,
+      "rouge_l": 0.0273972602739726
+    },
+    "fconsistency_detail.jsonl": {
+      "id": "truth-0042",
+      "ng1_prec": 0.013888888888888888,
+      "ng1_rec": 1.0,
+      "ng1_f1": 0.0273972602739726,
+      "ng2_prec": 0.0,
+      "ng2_rec": 0.0,
+      "ng2_f1": 0.0,
+      "ng3_prec": 0.0,
+      "ng3_rec": 0.0,
+      "ng3_f1": 0.0
+    }
+  }
+}
