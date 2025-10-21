@@ -14,7 +14,7 @@ load_dotenv()
 # if pathlib.Path("API_key.env").exists() and not os.getenv("OPENAI_API_KEY"):
 #      os.environ["OPENAI_API_KEY"] = pathlib.Path("API_key.txt").read_text().strip()
 
-MODEL_MODE = "openai"  ## Change to "ollama" to use local Oll
+MODEL_MODE = "ollama"  ## Change to "ollama" to use local Oll
 
 if(MODEL_MODE=="openai"):
     ## GPT API Mode
@@ -22,19 +22,19 @@ if(MODEL_MODE=="openai"):
     MODEL = "gpt-4.1-mini"
 elif(MODEL_MODE=="ollama"):
     ## Local OLLAMA Mode
-    MODEL = "llama3.2:1b" # llama3.2:1b llama3:8b
+    MODEL = "qwen3:0.6b" # llama3.2:1b llama3:8b qwen3:0.6b
 
 print(f"Using MODEL_MODE={MODEL_MODE}, MODEL={MODEL}")
 
 # SET MODEL EXECUTION MODE HERE
 
-DATASET= 'fin_qa' ## Change to truthful_qa, mixed_qa, med_qa, or fin_qa
+DATASET= 'mind2web' ## Change to truthful_qa, mixed_qa, med_qa, or fin_qa
 DATA_BASE = "data"
 DATA_DIR = os.path.join(DATA_BASE, DATASET)
 RESULTS_BASE = "results"
 # CONFIDENCE_QUESTION = "Rate confidence in correctness of your answer in **exactly one word** from [High, Med, Low] without any explanation."
 # CONFIDENCE_QUESTION = "Only reply with a single number. Given the question and your answer, rate correctness on a scale (1=worst, 5=best)."
-CONFIDENCE_QUESTION = 'Rate confidence in correctness on scale of 1 to 5 (1=worst, 5=best). Answer must be a single number without an explanation'
+CONFIDENCE_QUESTION = 'Rate correctness on scale of 1 to 5 (1=worst, 5=best). Answer must be a single number without an explanation'
 
 dir_name = f"{MODEL}-{DATASET}"
 RESULTS_DIR = os.path.join(RESULTS_BASE,dir_name)
@@ -254,9 +254,7 @@ def prepare_fin_qa(n: int = DEFAULT_SUBSET,
     return prompts, refs
 
 
-def prepare_mind2web(n: int = DEFAULT_SUBSET,
-                     split: str = "train",
-                     seed: int = SEED):
+def prepare_mind2web(n: int = DEFAULT_SUBSET, split: str = "train", seed: int = SEED):
     random.seed(seed)
     dataset = "osunlp/Mind2Web"
 
@@ -320,7 +318,7 @@ def prepare_data_subset(dataset:str, DATA_DIR:str,
     elif(dataset=="fin_qa"):
         prompts, refs = prepare_fin_qa(n=n, split='test', seed=seed)
     elif(dataset=="Mind2Web"):
-        prompts, refs = prepare_fin_qa(n=n, split='train', seed=seed)
+        prompts, refs = prepare_mind2web(n=n, split='train', seed=seed)
     else:
         print(f"Unknown dataset: {dataset}")
         raise RuntimeError(f"Unknown dataset: {dataset}")
@@ -480,7 +478,8 @@ def run_generation(prompts_path: str) -> str:
     with tqdm(total=len(rows), desc="Running Inference") as pbar:
         for row in rows:
             sys_msg = row.get("system", "You are a helpful, truthful assistant.")
-            user = row["prompt"]
+            # user = row["prompt"]
+            user = chat_template(sys_msg, row["prompt"])
             # full = chat_template(sys_msg, user)
             if(MODEL_MODE=="openai"):
                 text, score = generate_openai(user)
