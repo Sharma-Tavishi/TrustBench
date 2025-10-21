@@ -100,7 +100,7 @@ def parser():
 
 def main(model:str=None, dataset:str=None,all_metrics:bool=False,metric:str=None,
          y_min:float=None, y_max:float=None):
-    out_dir = os.path.join("saved_models","lookups",f"{model}-{dataset}.jsonl")
+    out_dir = os.path.join("saved_models","lookups",f"{model}-{dataset}")
     print(f"Making output directory at {out_dir}")
     os.makedirs(out_dir, exist_ok=True)
 
