@@ -31,7 +31,7 @@ def load_med_qa(DATA_BASE):
     return df
 
 def load_fin_qa(DATA_BASE):
-    ds_path = os.path.join(DATA_BASE,"med_qa.jsonl")
+    ds_path = os.path.join(DATA_BASE,"fin_qa.jsonl")
     if(os.path.exists(ds_path)):
         df = pd.read_json(ds_path,lines=True)
     else:
