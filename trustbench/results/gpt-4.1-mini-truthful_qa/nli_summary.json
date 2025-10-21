@@ -1,9 +1,0 @@
-{
-  "n": 150,
-  "aggregate": {
-    "nli_entailment": 0.5527664410920503,
-    "nli_contradiction": 0.2359674073443845,
-    "nli_neutral": 0.44859170872407655
-  },
-  "model": "facebook/bart-large-mnli"
-}
