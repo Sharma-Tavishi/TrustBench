@@ -379,6 +379,7 @@ class TrustBenchEvaluator:
         mean_truthfulness = np.mean(eval_df['truthfulness_score'].values)
         mean_informativeness = np.mean(eval_df['informative'].values)
         mean_consistency = np.mean(eval_df['consistency'].values)
+        mean_score = np.mean(eval_df['score'].values)
         print(f"Mean truthfulness score {mean_truthfulness} | Mean informativeness {mean_informativeness} | Mean consistency {mean_consistency}")
 
 if __name__ == "__main__":

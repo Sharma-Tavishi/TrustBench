@@ -69,7 +69,7 @@ def extract_score(score_response):
                 score=1
             if score>5:
                 score=5
-            return score
+            return int(score)
         except :
             return 1 
 
