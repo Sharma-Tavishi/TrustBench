@@ -57,6 +57,12 @@ def argaparse_args():
         default="llama3:8b",
         help="(Optional) Number of samples to evaluate",
     )
+    # Bool Flag to disable inference
+    parser.add_argument(
+        "--no_inference",
+        action="store_true",
+        help="(Optional) Disable inference and load previous results. (default: False)"
+    )
     return parser
 
 def write_jsonl(path: str, rows: List[Dict[str, Any]]):
@@ -107,14 +113,27 @@ class TrustBenchEvaluator:
                 num_samples: int=150,
                 judge_model: str="llama3:8b",
                 MODEL_MODE:str = "ollama",
-                DATA_BASE = "data"):
+                DATA_BASE = "data",
+                no_inference: bool = False):
+        """ TrustBenchEvaluator class to compute priors for runtime eval.
 
+        Args:
+            MODEL (str): Model to evaluate.
+            DATASET (str): Dataset to evaluate on.
+            output_dir (str, optional): Directory to save results. Defaults to "results".
+            num_samples (int, optional): Number of samples to evaluate on. Defaults to 150.
+            judge_model (_type_, optional): Judge model used for LLM-based evaluation. Defaults to "llama3:8b".
+            MODEL_MODE (str, optional): Inference Engine. Defaults to "ollama".
+            DATA_BASE (str, optional): Location to store processed dataset. Defaults to "data".
+            no_inference (bool, optional): Flag to disable inference. When true inference values are loaded from previous runs. Defaults to False.
+        """
         self.MODEL = MODEL
         self.DATASET = DATASET
         self.output_dir = output_dir
         self.num_samples = num_samples
         self.judge_model = judge_model
         self.DATA_BASE = DATA_BASE
+        self.no_inference = no_inference
         # Load Dataset
         self.load_dataset()
         # Checks if output directory exists, if not creates it
@@ -329,13 +348,17 @@ class TrustBenchEvaluator:
     def generate_outputs(self):
         outputs = []
         print("--- Generating model outputs ---")
-        for row_num in tqdm(range(self.num_samples)):
-            values = self.data.iloc[row_num].to_dict()
-            values.update(self.generate_single_reply(values['question']))
-            outputs.append(values)
-        
-        self.output = pd.DataFrame(outputs)
-        self.output.to_json(os.path.join(self.RESULTS_DIR,"model_outputs.jsonl"),lines=True,orient='records')
+        if(self.no_inference):
+            self.output = pd.read_json(os.path.join(self.RESULTS_DIR,"model_outputs.jsonl"),lines=True,orient='records')
+            print("Loaded cached model outputs from previous run.")
+        else:
+            for row_num in tqdm(range(self.num_samples)):
+                values = self.data.iloc[row_num].to_dict()
+                values.update(self.generate_single_reply(values['question']))
+                outputs.append(values)
+            
+            self.output = pd.DataFrame(outputs)
+            self.output.to_json(os.path.join(self.RESULTS_DIR,"model_outputs.jsonl"),lines=True,orient='records')
     
     def evaluate_outputs(self):
         if(self.output is None):
@@ -370,7 +393,8 @@ if __name__ == "__main__":
         output_dir=args.output_dir,
         num_samples=args.num_samples,
         judge_model=args.judge_model,
-        MODEL_MODE=args.model_mode # or "openai"
+        MODEL_MODE=args.model_mode, # or "openai"
+        no_inference=args.no_inference
     )
     evaluator.generate_outputs()
     evaluator.evaluate_outputs()
