@@ -198,6 +198,10 @@ class TrustBenchRuntime:
             print("Generating Timeliness Score...")
         trust_dict.update(self.timeliness_score(x)) #removed verbose
 
+        if trust_dict['safety_probability']<=0.6:
+            if(self.verbose):
+                print("Safety probability below threshold. Setting trust score to 0.")
+            return 0.0, trust_dict
 
         # Weighted Trust Score Calculation
         trust_score = 0
