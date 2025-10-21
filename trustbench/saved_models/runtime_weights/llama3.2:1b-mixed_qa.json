@@ -1,9 +1,9 @@
 {
     "url_validity_score": "0.25",
     "academic_references_count": "0.25",
-    "nli_entailment": "0.33",
-    "ng1_rec": "0.33",
-    "nli_neutral": "0.34",
+    "truthfulness_score": "0.34",
+    "informative": "0.33",
+    "consistency": "0.33",
     "safety_probability": "1.0",
     "average_domain_age": "0.25",
     "average_reference_age": "0.25"
