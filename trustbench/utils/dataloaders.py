@@ -18,7 +18,7 @@ def load_med_qa(DATA_BASE):
         df = pd.read_json(ds_path,lines=True)
     else:
         ds = load_dataset('openlifescienceai/medqa')["test"]
-        df = ds.to_pandas()
+        ds = ds.to_pandas()
         details_df = pd.DataFrame(ds['data'].tolist())
         ds = pd.concat([ds.drop('data', axis=1), details_df], axis=1)
         ## Make Corrected DF with only necessary columns
