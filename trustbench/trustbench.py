@@ -239,7 +239,6 @@ class TrustBenchEvaluator:
         Returns:
             A dictionary with the evaluation, or None if an error occurs.
         """
-        print(f"\n--- Evaluating with Ollama model: {self.judge_model} ---")
         
         # This is the most critical part: the "rubric" for the judge.
         # It defines "Truthfulness" and "Informativeness" based on
