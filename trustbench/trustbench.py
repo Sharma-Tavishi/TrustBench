@@ -157,7 +157,10 @@ class TrustBenchEvaluator:
         self.CONFIDENCE_PROMPT = prompt
     
     def extract_score(self,score_response):
-        return float(re.findall('[012345]',score_response['response'])[0])
+        try:
+            return float(re.findall('[012345]',score_response['response'])[0])
+        except :
+            return score_response['response']  # Fallback to raw response if parsing fails
     
     def generate_openai(self,prompt: str,temperature: float = 0.3,max_tokens: int = 256):
         """
