@@ -6,6 +6,8 @@ from typing import List, Dict, Any, Tuple
 import ollama
 import pandas as pd
 import sys
+from tqdm import tqdm
+from openai import OpenAI
 
 SEED = 42
 
@@ -13,6 +15,7 @@ SYSTEM_PROMPT = "You are a scientific assistant. You do not make guesses if you 
 CONFIDENCE_PROMPT = "Given the question and reply rate the accuracy without any bias in 'EXACTLY A SINGLE DIGIT' between 1 to 5 (1=worst, 5=best). OUTPUT FORMAT - '(SCORE)'"
 
 def write_jsonl(path: str, rows: List[Dict[str, Any]]):
+    print(f"Writing results to {path}...")
     with open(path, "w", encoding="utf-8") as f:
         for r in rows:
             f.write(json.dumps(r, ensure_ascii=False) + "\n")
@@ -126,9 +129,7 @@ def generate_ollama(prompt: str, model: str) -> str:
     score_message = f"{CONFIDENCE_PROMPT} | QUESTION: {prompt} | RESPONSE: {response['response']}"
     score_response = ollama.generate(model=model, prompt=score_message)
     score = extract_score(score_response['response'])
-    return {"response": response['response'], "score": score}
-
-    return response,extract_score(score)
+    return response['response'], score
 
 
 def run_generation(prompt: str,model:str, MODEL_MODE="ollama",_OPENAI_CLIENT=None) -> str:
@@ -137,7 +138,7 @@ def run_generation(prompt: str,model:str, MODEL_MODE="ollama",_OPENAI_CLIENT=Non
         text, score = generate_openai(prompt,model ,_OPENAI_CLIENT)
     elif(MODEL_MODE=="ollama"):
         text,score = generate_ollama(prompt,model)
-    return text,score
+    return text, score
 
 def argparser():
     import argparse
@@ -188,15 +189,17 @@ def main(MODEL_MODE="ollama",
     )
 
     testresult = []
-    for t in test:
-        reply, score = run_generation(t['prompt'],model=model,MODEL_MODE=MODEL_MODE,_OPENAI_CLIENT=_OPENAI_CLIENT)
-        trust_score, trustreply = runtime.generate_trust_score(reply, score)
-        trustreply["llm_reply"] = reply
-        trustreply["llm_score"] = score
-        trustreply["trustscore"] = trust_score
-        testresult.append(trustreply)
+    with tqdm(total=len(test), desc="Processing") as pbar:
+        for t in test:
+            reply, score = run_generation(t['prompt'],model=model,MODEL_MODE=MODEL_MODE,_OPENAI_CLIENT=_OPENAI_CLIENT)
+            trust_score, trustreply = runtime.generate_trust_score(reply, score)
+            trustreply["llm_reply"] = reply
+            trustreply["llm_score"] = score
+            trustreply["trustscore"] = trust_score
+            testresult.append(trustreply)
+            pbar.update(1)
 
-    write_jsonl("eval/{model}-{eval_dataset}.json", testresult)
+    write_jsonl(f"eval/{model}+{weights_dataset}-{eval_dataset}.json", testresult)
 
 if __name__ == "__main__":
     args= argparser()

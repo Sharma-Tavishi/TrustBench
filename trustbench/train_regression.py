@@ -117,9 +117,23 @@ def main(model:str=None, dataset:str=None,all_metrics:bool=False,metric:str=None
             trainer.set_metric(metric)
             trainer.train()
             score_dict = {}
-            for i in range(6):
+            nan_list=[]
+            for i in range(1,6):
                 pred = trainer.predict([i])
+                if(str(pred[0].tolist()) == 'nan'):
+                    nan_list.append(i)
                 score_dict[i] = pred[0]
+            for i in nan_list:
+                if(i==5):
+                    score_dict[i] = 1.0
+                else:
+                    j = i+1
+                    while(score_dict[j] in nan_list and j<5):
+                        j+=1
+                    if(j==5):
+                        score_dict[i] = 1.0
+                    else:
+                        score_dict[i] = score_dict[j]
             outfile = os.path.join(out_dir, f"{metric}.json")
             with open(outfile, "w") as f:
                 json.dump(score_dict, f, indent=4)
@@ -130,9 +144,23 @@ def main(model:str=None, dataset:str=None,all_metrics:bool=False,metric:str=None
         trainer.set_metric(metric)
         trainer.train()
         score_dict = {}
-        for i in range(6):
+        nan_list=[]
+        for i in range(1,6):
             pred = trainer.predict([i])
+            if(str(pred[0].tolist()) == 'nan'):
+                nan_list.append(i)
             score_dict[i] = pred[0]
+        for i in nan_list:
+            if(i==5):
+                score_dict[i] = 1.0
+            else:
+                j = i+1
+                while(score_dict[j] in nan_list and j<5):
+                    j+=1
+                if(j==5):
+                    score_dict[i] = 1.0
+                else:
+                    score_dict[i] = score_dict[j]
         outfile = os.path.join(out_dir, f"{metric}.json")
         with open(outfile, "w") as f:
             json.dump(score_dict, f, indent=4)
