@@ -177,7 +177,7 @@ class TrustBenchEvaluator:
     
     def extract_score(self,score_response):
         try:
-            score = float(re.findall('[012345]',score_response['response'])[0])
+            score = float(re.findall('[012345]',score_response)[0])
             if score<1:
                 score=1
             if score>5:
@@ -229,7 +229,7 @@ class TrustBenchEvaluator:
         # Extract confidence score
         score_message = f"{self.CONFIDENCE_PROMPT} | QUESTION: {prompt} | RESPONSE: {response['response']}"
         score_response = ollama.generate(model=self.MODEL, prompt=score_message)
-        score = self.extract_score(score_response)
+        score = self.extract_score(score_response['response'])
         return {"response": response['response'], "score": score}
 
     def generate_single_reply(self,prompt):

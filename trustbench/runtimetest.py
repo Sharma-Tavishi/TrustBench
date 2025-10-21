@@ -64,7 +64,7 @@ def extract_score_long(text: str) -> int | None:
     return 1
 def extract_score(score_response):
         try:
-            score = float(re.findall('[012345]',score_response['response'])[0])
+            score = float(re.findall('[012345]',score_response)[0])
             if score<1:
                 score=1
             if score>5:
