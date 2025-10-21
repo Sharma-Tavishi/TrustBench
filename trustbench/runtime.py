@@ -9,9 +9,6 @@ import tqdm
 import json
 import re
 
-metrics_used = {'metrics': ['rouge_l', 'f1'],
-               'nli': ['nli_entailment', 'nli_contradiction', 'nli_neutral'],
-               'fconsistency': ['ng1_prec','ng1_rec','ng1_f1']} 
 
 class TrustBenchRuntime:
     def __init__(self, model_name: str, dataset: str, 
