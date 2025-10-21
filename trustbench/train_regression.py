@@ -8,31 +8,24 @@ import pickle
 import json
 import tqdm
 
-from dotenv import load_dotenv
 
-load_dotenv()
-api_key = os.getenv("OPENAI_API_KEY")
-print(api_key)
-
-all_metrics_dict = {'metrics': ['rouge_l', 'f1'],
-               'nli': ['nli_entailment', 'nli_contradiction', 'nli_neutral'],
-               'fconsistency': ['ng1_prec','ng1_rec','ng1_f1']}
+all_metric_list = ['truthfulness_score' ,'informative' ,'consistency']
 
 class RegressionTrainer:
-    def __init__(self, joined_data:pd.DataFrame, 
-                 y_min=None, y_max=None):
+    def __init__(self, eval_results:pd.DataFrame, 
+                y_min=None, y_max=None):
         self.model = IsotonicRegression(y_min=y_min, y_max=y_max)
 
-        self.joined_data = joined_data
+        self.eval_results = eval_results
         # Convert score to numeric, coerce errors to NaN, then fill NaN with 1
-        self.joined_data ['score'] = pd.to_numeric(self.joined_data ['score'], errors='coerce').fillna(1)
+        self.eval_results['score'] = pd.to_numeric(self.eval_results['score'], errors='coerce').fillna(1)
         ## Set dummy values for X and y
-        self.X = self.joined_data[['score']].values
+        self.X = self.eval_results[['score']].values
         self.y = None
         self.y_pred = None
 
     def set_metric(self, metric_label:str):
-        self.y = self.joined_data[metric_label].values
+        self.y = pd.to_numeric(self.eval_results[metric_label].ffill()).values
 
     def train(self):
         if self.y is None:
@@ -78,7 +71,7 @@ def parser():
     parser.add_argument(
         "--metric",
         type=str,
-        choices=['rouge_l', 'f1','bertscore_f1', 'nli_entailment', 'nli_contradiction', 'nli_neutral','ng1_prec','ng1_rec','ng1_f1'],
+        choices=['truthfulness_score' ,'informative' ,'consistency'],
         help="The specific evaluation metric to use. Required if --all-metrics is not specified."
     )
 
@@ -103,55 +96,37 @@ def parser():
         default=None,
         help='The maximum value of the isotonic regression function. (optional)'
     )
-
     return parser.parse_args()
-
-def load_data(model_name, dataset_name, metric_group):
-    file_path =f"./results/{model_name}-{dataset_name}/{metric_group}_detail.jsonl"
-    metrics = pd.read_json(file_path, lines=True)
-    return metrics
-
-def get_joined_data(model_out:pd.DataFrame,metrics:pd.DataFrame) -> pd.DataFrame:
-    return pd.merge(model_out, metrics, on='id').dropna()
 
 def main(model:str=None, dataset:str=None,all_metrics:bool=False,metric:str=None,
          y_min:float=None, y_max:float=None):
-    out_dir = os.path.join("saved_models","lookups",f"{model}-{dataset}")
+    out_dir = os.path.join("saved_models","lookups",f"{model}-{dataset}.jsonl")
     print(f"Making output directory at {out_dir}")
     os.makedirs(out_dir, exist_ok=True)
 
-    model_outs = pd.read_json(f"./results/{model}-{dataset}/outputs_with_confidence.jsonl",lines=True)
-    print(f"Model rated itself with the following unique values {pd.unique(model_outs['score'])}")
+    eval_results = pd.read_json(f"./results/{model}-{dataset}/model_evaluations.jsonl",lines=True)
+    print(f"Model rated itself with the following unique values {pd.unique(eval_results['score'])}")
 
     if(metric==None and all_metrics==False):
         raise ValueError("Either --metric or --all-metrics must be specified.")
     
     if(all_metrics):
-        for key,value in all_metrics_dict.items():
-            print("Dataframe for metrics:", key)
-            metrics_df = load_data(model, dataset, key)
-            joint_df = get_joined_data(model_outs, metrics_df)
-            trainer = RegressionTrainer(joint_df, y_min=y_min, y_max=y_max)
-            for metric in value:
-                trainer.set_metric(metric)
-                trainer.train()
-                score_dict = {}
-                for i in range(6):
-                    pred = trainer.predict([i])
-                    score_dict[i] = pred[0]
-                outfile = os.path.join(out_dir, f"{metric}.json")
-                with open(outfile, "w") as f:
-                    json.dump(score_dict, f, indent=4)
-                print(f"Saved regression model for metric {metric} at {outfile}")
+        print("Creating RegressionTrainer")
+        trainer = RegressionTrainer(eval_results, y_min=y_min, y_max=y_max)
+        for metric in all_metric_list:
+            trainer.set_metric(metric)
+            trainer.train()
+            score_dict = {}
+            for i in range(6):
+                pred = trainer.predict([i])
+                score_dict[i] = pred[0]
+            outfile = os.path.join(out_dir, f"{metric}.json")
+            with open(outfile, "w") as f:
+                json.dump(score_dict, f, indent=4)
+            print(f"Saved regression model for metric {metric} at {outfile}")
     else:
-        found_k = None
-        for k,v in all_metrics_dict.items():
-            if metric in v:
-                found_k = k
-                break
-        metrics_df = load_data(model, dataset, found_k)
-        joint_df = get_joined_data(model_outs, metrics_df)
-        trainer = RegressionTrainer(joint_df, y_min=y_min, y_max=y_max)
+        print("Creating RegressionTrainer")
+        trainer = RegressionTrainer(eval_results, y_min=y_min, y_max=y_max)
         trainer.set_metric(metric)
         trainer.train()
         score_dict = {}

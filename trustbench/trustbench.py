@@ -189,7 +189,7 @@ class TrustBenchEvaluator:
     def generate_openai(self,prompt: str,temperature: float = 0.3,max_tokens: int = 256):
         """
         1) Get the model's answer for the user prompt.
-        2) Ask for a one-word confidence label using CONFIDENCE_QUESTION.
+        2) Ask for a one-word confidence label using CONFIDENCE_PROMPT.
         Returns (answer_text, score_word)
         """
         # 1) Answer
@@ -207,10 +207,7 @@ class TrustBenchEvaluator:
             die(f"OpenAI API call failed (answer): {e}")
 
         # 2) Confidence word (deterministic)
-        confidence_prompt = (
-            f"QUESTION:\n{prompt}\nYOU RESPONSE:\n{answer}\n\n{self.CONFIDENCE_QUESTION}"
-        )
-        score_message = f"{self.CONFIDENCE_PROMPT} | QUESTION: {prompt} | RESPONSE: {response['response']}"
+        score_message = f"{self.CONFIDENCE_PROMPT} | QUESTION: {prompt} | RESPONSE: {answer}"
         try:
             score_response = self._OPENAI_CLIENT.responses.create(
                 model=self.MODEL,
@@ -223,7 +220,7 @@ class TrustBenchEvaluator:
         except Exception as e:
             die(f"OpenAI API call failed (confidence): {e}")
 
-        return {"response": response['response'], "score": score}
+        return {"response": answer, "score": score}
 
     def ollama_generate_reply(self,prompt):
         message = f"SYSTEM: {self.SYSTEM_PROMPT} | QUESTION: {prompt}"
